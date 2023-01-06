@@ -1,0 +1,26 @@
+
+
+.logoimage
+{
+    width:150px;
+}
+.labnamee
+{
+    font-size:25px;
+}
+@media only screen and (max-width: 480px), only screen and (max-device-width: 480px) {
+    .logoimage {
+        width:90px;
+    }
+
+    .labnamee {
+        font-size:15px;
+    }
+}
+#sidebar ul li a img.hovericon, #sidebar ul li a:hover img, #sidebar ul li a:focus img, #sidebar ul li.navactive > a img {
+    display: none;
+}
+#sidebar ul li a:hover img.hovericon, #sidebar ul li a:focus img.hovericon, #sidebar ul li.navactive > a img.hovericon{display:inherit;}
+/*#sidebar.active ul ul a {padding: 10px !important; }*/
+#sidebar.active a[aria-expanded="false"]::before, #sidebar.active a[aria-expanded="true"]::before {top: 15px; left: :100%; -webkit-transform: translateX(50%); -ms-transform: translateX(50%); transform: translateX(50%); }
+

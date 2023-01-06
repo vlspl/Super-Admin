@@ -1,0 +1,17 @@
+       /* for scrollable table    */
+
+.table .table-header tr{
+  background-color: #f2f2f2;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.03em;
+  /* box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.2); */
+}
+
+.table tr{
+  background-color: #ffffff;
+  font-size: 12px !important;
+  box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  border:10px solid #f3f6ff;
+
+}
