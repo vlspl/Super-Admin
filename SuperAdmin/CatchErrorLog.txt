@@ -1,0 +1,70 @@
+﻿Time: 14/02/2022 04:45:04 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 04:52:19 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:05:41 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:09:44 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:35:52 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 85
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+

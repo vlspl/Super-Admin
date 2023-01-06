@@ -1,0 +1,47 @@
+html{height:100%;}
+body{font-family:'Arial';font-size:15px;overflow-x:hidden;word-wrap:break-word;}
+p{font-size:1em;}
+h1{font-size:3em;}
+h2{font-size:2.25em;}
+h3{font-size:1.875em;}
+h4{font-size:1.25em;}
+h5{font-size:1em;}
+h6{font-size:0.875em;}
+a{color:#ef7104;}
+a:hover, a:focus{color:#333;text-decoration:none;outline:none;}
+img{max-width:100%;}
+ul{list-style:none;}
+header,nav,ul{margin:0;padding:0;}
+.padding-0{padding:0 !important;}
+.paddingtop-0{padding-top:0 !important;}
+.paddingbottom-0{padding-top:0 !important;}
+.paddingleft-0{padding-left:0 !important;}
+.paddingright-0{padding-right:0 !important;}
+.margin-0{margin:0 !important;}
+.margintop-0{margin-top:0 !important;}
+.marginbottom-0{margin-bottom:0 !important;}
+.marginleft-0{margin-left:0 !important;}
+.marginright-0{margin-right:0 !important;}
+.bold{font-weight:bold;}
+.italic{font-style:italic;}
+.text-light{font-family:'Arial';}
+.has-error{border-color:#a94442 !important;}
+.has-error::-webkit-input-placeholder{color:#a94442;}
+.has-error:-moz-placeholder{color:#a94442;}
+.has-error::-moz-placeholder{color:#a94442;}
+.has-error:-ms-input-placeholder{color:#a94442;}
+textarea{resize:vertical;}
+
+
+@media screen and (min-width:990px) and (max-width:1024px){
+	
+}
+@media screen and (min-width:641px) and (max-width:768px){
+	
+}
+@media screen and (min-width:481px) and (max-width:640px){
+	
+}
+@media screen and (min-width:300px) and (max-width:480px){
+	
+}
