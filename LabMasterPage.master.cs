@@ -368,7 +368,7 @@ public partial class LabMasterPage : System.Web.UI.MasterPage
 
             if (Pageid5 == "6" && (sAddid5 == access || sEditid5 == access || sViewid5 == access))
             {
-                sb1.Append("<li title=\"My Test List\"> <a href=\"TestList.aspx\"> <i class=\"fa fa-list\"></i><span>My Test List</span></a></li>");
+                sb1.Append("<li title=\"My Test List\"> <a href=\"TestList.aspx\"> <i class=\"fa fa-list\"></i><span>Test List</span></a></li>");
                 #region PageAccess6
 
                 if (PageURL.ToString().Contains("TestList.aspx") == true)

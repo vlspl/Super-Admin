@@ -12,7 +12,7 @@
  <script type="text/javascript">
 
      function goBack() {
-         window.history.back()
+         window.location.reload();
      }
  </script>
  <link href="Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">

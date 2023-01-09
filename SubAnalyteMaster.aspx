@@ -65,8 +65,7 @@
                 </div>
                 <div class="col-md-4">
                     <asp:TextBox ID="txtSubAnalyteName" onkeypress="return onlyAlphabets(event,this);"
-                        class="form-control" placeholder="Subanalyte
-    name" runat="server" ClientIDMode="Static"></asp:TextBox>
+                        class="form-control" placeholder="Subanalyte Name" runat="server" ClientIDMode="Static"></asp:TextBox>
                 </div>
                 <asp:Button ID="btnSubAnalyte" runat="server" class="btn btn-color mb-2" OnClientClick="javascript:return subAnalyteValidate()"
                     OnClick="btnAddSubAnalyte_click" Text="Add Subanalyte" />

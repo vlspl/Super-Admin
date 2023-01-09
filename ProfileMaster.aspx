@@ -62,7 +62,7 @@
                         <asp:DropDownList ID="selSection" class="form-control"  runat="server" ClientIDMode="Static"> </asp:DropDownList>
                     </div>
                 </div>
-                <div class="col-md-3">  <asp:TextBox ID="txtProfileName" onkeypress="return onlyAlphabets(event,this);" class="form-control" placeholder="Profile name" runat="server" ClientIDMode="Static"></asp:TextBox>
+                <div class="col-md-3">  <asp:TextBox ID="txtProfileName" onkeypress="return onlyAlphabets(event,this);" class="form-control" placeholder="Profile Name" runat="server" ClientIDMode="Static"></asp:TextBox>
                    </div>
                       <asp:Button ID="btnAddProfile" class="btn btn-color mb-2" runat="server" OnClientClick="javascript:return profileValidate()" OnClick="btnAddProfile_click" Text="Add Profile" />
             </div>
