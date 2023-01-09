@@ -106,7 +106,7 @@ margin-left:70px;
                             Booking ID : <span id="spanBookingId" runat="server" clientidmode="Static"></span>
                         </div>
                         <div class="col-md-4 ">
-                            report Id : <span id="spanReportId" runat="server" clientidmode="Static"></span>
+                          Report ID : <span id="spanReportId" runat="server" clientidmode="Static"></span>
                         </div>
                         <div class="col-md-4 ">
                             Payment Status : <span id="spanPaymentStatus" runat="server" clientidmode="Static">
