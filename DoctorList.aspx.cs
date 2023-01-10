@@ -57,30 +57,23 @@ public partial class DoctorList : System.Web.UI.Page
                     {
                         count = count + 1;
                         string mobile = (row["sMobile"].ToString() != "") ? CryptoHelper.Decrypt(row["sMobile"].ToString()) : "";
-                        tabMyDoctorsList += "<tr>" +
-                                           "<td scope='col'>" + count + "</td>" +
-                                            "<td scope='col'>" + row["sFullName"].ToString() + "</td>" +
-                                            "<td scope='col'>" + row["sGender"].ToString() + "</td>" +
-                                             "<td scope='col'>" + mobile + "</td>" +
-                                             "<td scope='col'>" + row["sAddress"].ToString() + "</td>" +
-                                              "<td scope='col'>" + row["sDegree"].ToString() + "</td>" +
-                                               "<td scope='col'>" + row["sSpecialization"].ToString() + "</td>" +
-                                                "<td scope='col'>" + row["sClinic"].ToString() + "</td>" +
-
-                                              "<td scope='col'><a href='AddDoctor.aspx?id=" + row["sAppUserId"].ToString() + "' '><i class='fa fa-edit fa-2x'></i></a></td>" +
-                                              
-                                             "</tr>";
-                            
-                            
-                            
-                            
-                         
+                        tabMyDoctorsList += "<li class='table-row'>" +
+                                      "<div class='col col-1 text-center' data-label='Sr. No.' id='SrNo" + row["sappuserid"].ToString() + "' clientidmode='static'>" + count + "</div>" +
+                                        "<div class='col col-2 text-center' TextAlig=right; data-label='Name' id='Fullname" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sFullName"].ToString() + "</div>" +
+                                        "<div class='col col-3 text-center' data-label='Gender' id='gender" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sGender"].ToString() + "</div>" +
+                                        "<div class='col col-2 text-center' data-label='Mobile' id='mobile" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + mobile + "</div>" +
+                                        "<div class='col col-5 text-center' data-label='Address' id='address" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sAddress"].ToString() + "</div>" +
+                                        "<div class='col col-6 text-center' data-label='Degree'  id='degree" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sDegree"].ToString() + "</div>" +
+                                        "<div class='col col-7 text-center' data-label='Specialization' id='specialize" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sSpecialization"].ToString() + "</div>" +
+                                        "<div class='col col-8 text-center' data-label='Clinic' id='clinic" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sClinic"].ToString() + "</div>" +
+                                         "<div class='col col-9 text-center fa-color' data-label='Edit' ><a href='' id='" + row["sAppUserId"].ToString() + "' data-toggle='modal' data-target='#modalEditDoctor' class='HideEditbtn'><i class='fa fa-edit' aria-hidden='true'></i></a></div>" +
+                                     "</li>";
                     }
-                    tbodyDoctorList.InnerHtml = tabMyDoctorsList;
+                    tbodyDoctorList.Text = tabMyDoctorsList;
                 }
                 else
                 {
-                    tbodyDoctorList.InnerHtml = "<tr><td>No records found</td></tr>";
+                    tbodyDoctorList.Text = "<tr><td>No records found</td></tr>";
                 }
             }
         }
@@ -146,7 +139,7 @@ public partial class DoctorList : System.Web.UI.Page
                 string specialization = txtSpecialization.SelectedItem.Text;
                 string clinic = txtClinic.Text;
                 string country = txtCountry.Text;
-                string state = txtState.SelectedItem.Text;
+                string state = txtState.Text;
                 string city = txtCity.Text;
                 string pincode = txtPincode.Text;
                 string action = hiddenAction.Value;
@@ -170,19 +163,16 @@ public partial class DoctorList : System.Web.UI.Page
                 {
                     birthDate = txtBirthDate.Text;
                 }
+
                 int addDoctor = objDoctors.addDoctor(action, appUserId, labId, fullname, emailId, mobile, gender, birthDate, address, degree, specialization, clinic, country, state, city, pincode);
 
                 if (addDoctor == 1)
                 {
-                    lblMessage.Text = "Doctor added successfully";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Doctor added successfully');location.reload();", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Doctor added successfully');location.reload();", true);
                 }
                 else if (addDoctor == 0)
                 {
-                    lblMessage.Text = "Error occured While Doctor Added";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                   // ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');location.reload();", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');location.reload();", true);
                 }
             }
         }
@@ -255,7 +245,7 @@ public partial class DoctorList : System.Web.UI.Page
                 string action = hiddenEditAction.Value;
                 string appUserId = txthiddenEditAppUserId.Text;
                 string birthDate = "";
-                if (txtEditBirthDate.Text == "")
+                if (txtBirthDate.Text == "")
                 {
                     birthDate = DateTime.Now.ToString("dd/MM/yyyy");
                     if (birthDate.Contains("/"))
@@ -271,21 +261,17 @@ public partial class DoctorList : System.Web.UI.Page
                 }
                 else
                 {
-                    birthDate = txtEditBirthDate.Text;
+                    birthDate = txtBirthDate.Text;
                 }
                 int addDoctor = objDoctors.updateDoctor(action, appUserId, labId, fullname, emailId, mobile, gender, birthDate, address, degree, specialization, clinic, country, state, city, pincode);
 
                 if (addDoctor == 1)
                 {
-                    lblMessage.Text = "Doctor Updated successfully";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
                 }
                 else if (addDoctor == 0)
                 {
-                    lblMessage.Text = "Error occured While Doctor Updating";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');location.reload();", true);
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');location.reload();", true);
                 }
             }
         }

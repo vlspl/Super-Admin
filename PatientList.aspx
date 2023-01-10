@@ -4,14 +4,6 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <link href="css/date.css" rel="stylesheet" type="text/css" />
-      <link href="css/date.css" rel="stylesheet" type="text/css" />
-   
-   <link href="Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-   <script src="Content/vendor/jquery/jquery.min.js"></script>
-    <script src="Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-   
-    <script src="Content/js/demo/datatables.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <nav class="navbar navbar-expand-sm navbar-header">
@@ -20,59 +12,66 @@
         <a href="#" class="navbar-brand">Patient List</a>
       </div>
       <div class="mr-5">
-       <ul class="navbar-nav ml-auto">
-         <li class="nav-item pt-1 mr-3">
-                   <a style="display:none;" href="#" data-toggle="modal" id="HideAddbtn" runat="server" data-target="#modalAddPatient" class="btn btn-color">
-                   <span class="fa fa-plus mr-2" aria-hidden="true"></span> Add Patient</a>
-                     <a  href="AddPatient.aspx"  class="btn btn-color">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item ">
+            <div class="search-box">
+              <input type="text" placeholder="Search by column value" class="input" id="myInput">
+              <div class="search-btn">
+                <i class="fa fa-search" aria-hidden="true" style="padding-top:40%"></i>
+              </div>
+            </div>
+          </li>
+          <li class="nav-item pt-1 mr-3">
+                   <a href="#" data-toggle="modal" id="HideAddbtn" runat="server" data-target="#modalAddPatient" class="btn btn-color">
                    <span class="fa fa-plus mr-2" aria-hidden="true"></span> Add Patient</a>
           </li>
-          </ul>
+        </ul>
       </div>
     </div>
   </nav>
-
-
-  <div class="container">
+    <div class="table_div">
+        <div class="container-fluid">
+            <div id="patientList">
+                <ul class="responsive-table">
+                    <li class="table-header">
+                        <div class="col col-1 text-center">
+                            Sr. No.</div>
+                        <div class="col col-2 text-center">
+                            Name</div>
+                        <div class="col col-3 text-center">
+                            Gender</div>
+                        <div class="col col-4 text-center">
+                            Mobile</div>
+                        <div class="col col-5 text-center">
+                            Address</div>
+                        <div class="col col-6 text-center">
+                            Edit</div>
+                        <div class="col col-7 text-center">
+                            Payment</div>
+                        <div class="col col-8 text-center">
+                            View</div>
+                    </li>
+                    <div id="page">
+                        <asp:Literal ID="tbodyPatientList" runat="server"></asp:Literal></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <div class="row">
-          
-            <div class="col-lg-12">
-  <div class="table-responsive">
-                        <table class="table table-bordered text-small" id="dataTable" width="100%" style="color: #56549b"
-                            cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Sr. No.
-                                    </th>
-                                    <th>
-                                        Patient Name
-                                    </th>
-                                    <th>
-                                       Gender
-                                    </th>
-                                    <th>
-                                        Mobile
-                                    </th>
-                                    <th>
-                                       Address
-                                    </th>
-                                    <th>
-                                    Edit
-                                    </th>
-                                   
-                                </tr>
-                            </thead>
-                            <tbody id="tbodyPatientList" runat="server"  style="text-align: center">
-                            </tbody>
-                        </table>
-                    </div>
-</div>
-</div>
-</div>
-
-
-  
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <nav class="pagination-container">    
+            <ul class="pagination justify-content-center">
+              <li id="previous-page" class="px-2"><a href="javascript:void(0)" aria-label=Previous><span aria-hidden=true>&laquo;</span></a></li>
+            </ul>
+        </nav>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
     <!-- Modal Add Patient Start-->
     <asp:HiddenField ID="hiddenAction" Value="0" runat="server" ClientIDMode="Static" />
     <asp:HiddenField ID="hiddenAppUserId" runat="server" ClientIDMode="Static" />
@@ -95,7 +94,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <asp:TextBox class="form-control" placeholder="Enter Mobile Number *" onkeypress="return isNumber(event)"
+                                <asp:TextBox class="form-control" placeholder="Enter Mobile Number" onkeypress="return isNumber(event)"
                                     ID="txtMobile" MaxLength="10" runat="server" ClientIDMode="Static"></asp:TextBox>
                                 <label id="lblMobile" class="form-error">
                                 </label>
@@ -117,7 +116,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <asp:TextBox class="form-control" placeholder="Enter Email Id *" ID="txtEmailId" runat="server"
+                                <asp:TextBox class="form-control" placeholder="Enter Email Id" ID="txtEmailId" runat="server"
                                     ClientIDMode="Static"></asp:TextBox>
                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmailId"
     ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
@@ -153,16 +152,17 @@
                             </div>
                             <label id="lblBirthDate" class="form-error">
                             </label>
-                          
+                            <label id="lblage">
+                               <%-- <asp:Label ID="lblage" runat="server" Text="Label"></asp:Label>--%>
+                          <%--  <asp:RangeValidator ID="RangeValidator1" runat="server" ErrorMessage="RangeValidator"  
+        ControlToValidate="lblage" MaximumValue="100" MinimumValue="18" Type="Integer"></asp:RangeValidator>--%>
+                            </label>
                             <%--<asp:TextBox class="form-control" placeholder="State" Text="Maharashtra" ID="txtage"
                                     runat="server" ClientIDMode="Static" Visible="False"></asp:TextBox>--%>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                              <label id="lblage">
-                             
-                            </label>
-                                <asp:TextBox class="form-control" placeholder="Enter Age in Year" onkeyup="GetBirthDate()" ReadOnly="true" style="display:none;"
+                                <asp:TextBox class="form-control" placeholder="Enter Age in Year" onkeyup="GetBirthDate()"
                                     ID="txtyear" runat="server" ClientIDMode="Static"></asp:TextBox>
                             </div>
                         </div>
@@ -172,14 +172,16 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="State" Text="Maharashtra" ID="txtState"
                                     runat="server" ClientIDMode="Static"></asp:TextBox>
-                              
+                                <label id="lblState" class="form-error">
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <asp:TextBox class="form-control" placeholder="Pincode" onkeypress="return isNumber(event)"
+                                <asp:TextBox class="form-control" placeholder="Pincode *" onkeypress="return isNumber(event)"
                                     ID="txtPincode" MaxLength="6" runat="server" ClientIDMode="Static"></asp:TextBox>
-                              
+                                <label id="lblPincode" class="form-error">
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -188,17 +190,28 @@
                             <div class="form-group" id="">
                                 <asp:TextBox class="form-control" Style="display: none" placeholder="Country" Text="India"
                                     ID="txtCountry" runat="server" ClientIDMode="Static"></asp:TextBox>
-                               
+                                <label id="lblCountry" class="form-error hide">
+                                </label>
                                 <asp:TextBox class="form-control" placeholder="City" ID="txtCity" runat="server"
                                     ClientIDMode="Static"></asp:TextBox>
-                                   
+                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+       ControlToValidate="txtCity" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid city" /> 
+                                <label id="lblCity" class="form-error">
+                                </label>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group" id="address">
-                                <asp:TextBox class="form-control" placeholder="Address" ID="txtAddress" TextMode="MultiLine"
+                                <asp:TextBox class="form-control" placeholder="Address *" ID="txtAddress" TextMode="MultiLine"
                                     Rows="2" runat="server" ClientIDMode="Static"></asp:TextBox>
-                                  
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" 
+       ControlToValidate="txtAddress" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid Address" /> 
+                                <label id="lblAddress" class="form-error">
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -241,7 +254,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <asp:TextBox class="form-control" Style="display: none" placeholder="Enter Mobile Number *"
+                                <asp:TextBox class="form-control" Style="display: none" placeholder="Enter Mobile Number"
                                     ID="txthiddenEditAppUserId" MaxLength="10" runat="server" ClientIDMode="Static"></asp:TextBox>
                                 <asp:TextBox class="form-control" placeholder="Enter Mobile Number" onkeypress="return isNumber(event)"
                                     ID="txtEditMobile" MaxLength="10" runat="server" ClientIDMode="Static"></asp:TextBox>
@@ -470,9 +483,9 @@
                 $("#txtEmailId").val("");
                 $("#selGender").val("select");
                 $("#txtBirthDate").val("");
-               // $("#txtAddress").val("");
-               // $("#txtCountry").val("");
-               // $("#txtState").val("");
+                $("#txtAddress").val("");
+                $("#txtCountry").val("");
+                $("#txtState").val("");
                 //            $("#txtCity").val("");
                 //            $("#txtPincode").val("");
 
@@ -482,11 +495,11 @@
                 $("#lblEmailId").html("");
                 $("#lblGender").html("");
                 $("#lblBirthDate").html("");
-               // $("#lblAddress").html("");
-               // $("#lblCountry").html("");
-              //  $("#lblState").html("");
-               // $("#lblCity").html("");
-               // $("#lblPincode").html("");
+                $("#lblAddress").html("");
+                $("#lblCountry").html("");
+                $("#lblState").html("");
+                $("#lblCity").html("");
+                $("#lblPincode").html("");
             });
 
 

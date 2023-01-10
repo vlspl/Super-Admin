@@ -3,48 +3,10 @@
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
- <script type="text/javascript">
-     function showModal() {
-         $("#myModal").modal('show');
-     }
-
-   </script>
-  <script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
- <script type="text/javascript">
-
-     function goBack() {
-         var url = 'DoctorList.aspx';
-         window.location.href = url;
-     }
- </script>
     <link href="css/date.css" rel="stylesheet" type="text/css" />
    
-   <link href="Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-   <script src="Content/vendor/jquery/jquery.min.js"></script>
-    <script src="Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-   
-    <script src="Content/js/demo/datatables.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
- <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Howzu Says</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-          <asp:Label ID="lblMessage" runat="server"></asp:Label>
-      </div>
-      <div class="modal-footer">
-         <asp:Button ID="btnredirect" class="btn btn-secondary" OnClientClick="goBack()"  runat="server" Text="Close"></asp:Button>
-      </div>
-    </div>
-  </div>  
-    </div>
     <nav class="navbar navbar-expand-sm navbar-header">
     <div class="container-fluid">
       <div class="navbar-title ml-5">
@@ -53,12 +15,17 @@
 
       <div class="mr-5">
         <ul class="navbar-nav ml-auto">
-        
+          <li class="nav-item ">
+            <div class="search-box">
+              <input type="text" placeholder="Search by column value" class="input" id="myInput">
+              <div class="search-btn">
+                <i class="fa fa-search" aria-hidden="true" style="padding-top:40%"></i>
+              </div>
+            </div>
+          </li>
           <li class="nav-item pt-1 mr-3">
-            <a style="display:none;" href="#" data-toggle="modal" id="HideAddbtn" runat="server" data-target="#modalAddDoctor" class="btn btn-color"><span class="fa fa-plus" aria-hidden="true">
+            <a href="#" data-toggle="modal" id="HideAddbtn" runat="server" data-target="#modalAddDoctor" class="btn btn-color"><span class="fa fa-plus" aria-hidden="true">
             </span> Add Doctor</a>
-              <a  href="AddDoctor.aspx"  class="btn btn-color">
-                   <span class="fa fa-plus mr-2" aria-hidden="true"></span> Add Doctor</a>
           </li>
           <%--<li class="nav-item pt-1">
             <button class="btn btn-color"><span><i class="fa fa-arrow-left mr-2"
@@ -68,56 +35,51 @@
       </div>
     </div>
   </nav>
-
-  <div class="container">
+  <div class="table_div">
+        <div class="container-fluid">
+            <div id="DoctorList">
+                <ul class="responsive-table">
+                    <li class="table-header">
+                        <div class="col col-1 text-center">
+                            Sr. No.</div>
+                        <div class="col col-2 text-center">
+                            Name</div>
+                        <div class="col col-3 text-center">
+                            Gender</div>
+                        <div class="col col-2 text-center">
+                            Mobile</div>
+                        <div class="col col-5 text-center">
+                            Address</div>
+                        <div class="col col-6 text-center">
+                            Degree</div>
+                        <div class="col col-7 text-center">
+                            Specialization</div>
+                        <div class="col col-8 text-center">
+                            Clinic</div>
+                        <div class="col col-9 text-center">
+                            Edit</div>
+                    </li>
+                    <div id="page">
+                        <asp:Literal ID="tbodyDoctorList" runat="server"></asp:Literal></div>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="container">
         <div class="row">
-          
-            <div class="col-lg-12">
-  <div class="table-responsive">
-                        <table class="table table-bordered text-small" id="dataTable" width="100%" style="color: #56549b"
-                            cellspacing="0">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Sr. No.
-                                    </th>
-                                    <th>
-                                        Doctor Name
-                                    </th>
-                                    <th>
-                                       Gender
-                                    </th>
-                                    <th>
-                                        Mobile
-                                    </th>
-                                    <th>
-                                       Address
-                                    </th>
-                                    <th>
-                                    Degree
-                                    </th>
-                                    <th>
-                                        Specialization
-                                    </th>
-                                    <th>
-                                        Clinic
-                                    </th>
-                                    <th>
-                                    Edit
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="tbodyDoctorList" runat="server"  style="text-align: center">
-                            </tbody>
-                        </table>
-                    </div>
-</div>
-</div>
-</div>
-
-
-
-
+            <div class="col-md-2">
+            </div>
+            <div class="col-md-8">
+                <nav class="pagination-container">    
+            <ul class="pagination justify-content-center">
+              <li id="previous-page" class="px-2"><a href="javascript:void(0)" aria-label=Previous><span aria-hidden=true>&laquo;</span></a></li>
+            </ul>
+        </nav>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
 
  
     <!-- Modal Add Doctor Start-->
@@ -147,7 +109,10 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Enter Full Name" ID="txtFullName"
                                     runat="server" ClientIDMode="Static"></asp:TextBox>
-                                    <asp:RegularExpressionValidator ID="regName" runat="server" ControlToValidate="txtFullName" ForeColor="Red" ValidationExpression="^[a-zA-Z'.\s]{1,50}"  Text="Enter a valid Name" />
+                                    <asp:RegularExpressionValidator ID="regName" runat="server" 
+       ControlToValidate="txtFullName" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid Name" /> 
                                 <label id="lblFullName" class="form-error">
                                 </label>
                             </div>
@@ -157,10 +122,9 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Enter Email Id" ID="txtEmailId" runat="server"
-                                    ClientIDMode="Static"></asp:TextBox>
-                                        <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" ControlToValidate="txtEmailId"
-                                            ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
-                                         Display = "Dynamic" ErrorMessage = "Invalid email Address"/>
+                                    ClientIDMode="Static"></asp:TextBox> <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="txtEmailId"
+    ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
+    Display = "Dynamic" ErrorMessage = "Invalid email address"/>
                                 <label id="lblEmailId" class="form-error">
                                 </label>
                             </div>
@@ -183,23 +147,32 @@
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text fa-color" style="color: #91c740;"><i class="fa fa-calendar fa-fa-color"
-                                        aria-hidden="true"></i></span>
+                                        arial-hidden="true"></i></span>
                                 </div>
-                                <asp:TextBox ID="txtBirthDate" class="form-control" placeholder="Birth date (dd/mm/yyyy)"
+                                <asp:TextBox ID="txtBirthDate" class="form-control" placeholder="Select Birth date *" 
                                     runat="server" onchange="AgeCalulation()" ClientIDMode="Static"></asp:TextBox>
                                 <cc1:CalendarExtender ID="Calendar1" CssClass="cal_Theme1" PopupButtonID="txtBirthDate"
                                     runat="server" TargetControlID="txtBirthDate" Format="dd/MM/yyyy">
                                 </cc1:CalendarExtender>
+
+
                             </div>
                             <label id="lblBirthDate" class="form-error">
                             </label>
-                            <label id="lblage">
-                            </label>
+                            <label id="lblage"><%--<asp:TextBox ID="txtage" runat="server"></asp:TextBox>--%>
+                               <%-- <asp:Label ID="lblage" runat="server" Text="Label"></asp:Label>--%>
+                            <%--<asp:RangeValidator ID="RangeValidator1" runat="server"
+ControlToValidate="txtage" ErrorMessage="Invalid age no !!"
+MaximumValue="100" MinimumValue="1" Type="Double"></asp:RangeValidator>--%>
+                         </label>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="City" Text="Pune" ID="txtCity" runat="server"
-                                    ClientIDMode="Static"></asp:TextBox>
+                                    ClientIDMode="Static"></asp:TextBox> <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" 
+       ControlToValidate="txtCity" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid city" /> 
                                 <label id="lblCity" class="form-error">
                                 </label>
                             </div>
@@ -210,8 +183,11 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Degree" ID="txtDegree" runat="server"
                                     ClientIDMode="Static"></asp:TextBox>
-                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" 
-                                           ControlToValidate="txtDegree" ForeColor="Red"  ValidationExpression="^[a-zA-Z'.\s]{1,50}"  Text="Enter a valid Degree" />
+                                  <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" 
+       ControlToValidate="txtDegree" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter only Characters" /> 
+                                                                       
                                 <label id="lblDegree" class="form-error">
                                 </label>
                             </div>
@@ -240,47 +216,12 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                              
-                                     <asp:DropDownList ID="txtState" class="form-control select2 select2-hidden-accessible"
-                                        runat="server">
-                                        <asp:ListItem Value="Select">Select</asp:ListItem>
-                                        <asp:ListItem Value="Andaman and Nicobar Islands">	Andaman and Nicobar Islands	</asp:ListItem>
-                                        <asp:ListItem Value="Andhra Pradesh">	Andhra Pradesh	</asp:ListItem>
-                                        <asp:ListItem Value="Arunachal Pradesh">	Arunachal Pradesh	</asp:ListItem>
-                                        <asp:ListItem Value="Assam">	Assam	</asp:ListItem>
-                                        <asp:ListItem Value="Bihar">	Bihar	</asp:ListItem>
-                                        <asp:ListItem Value="Chandigarh">	Chandigarh	</asp:ListItem>
-                                        <asp:ListItem Value="Chattisgarh">	Chattisgarh	</asp:ListItem>
-                                        <asp:ListItem Value="Dadra & Nagar Haveli and Daman & Diu">	Dadra & Nagar Haveli and Daman & Diu	</asp:ListItem>
-                                        <asp:ListItem Value="Delhi">	Delhi	</asp:ListItem>
-                                        <asp:ListItem Value="Goa">	Goa	</asp:ListItem>
-                                        <asp:ListItem Value="Gujarat">	Gujarat	</asp:ListItem>
-                                        <asp:ListItem Value="Haryana">	Haryana	</asp:ListItem>
-                                        <asp:ListItem Value="Himachal Pradesh">	Himachal Pradesh	</asp:ListItem>
-                                        <asp:ListItem Value="Jammu & Kashmir">	Jammu & Kashmir	</asp:ListItem>
-                                        <asp:ListItem Value="Jharkhand">	Jharkhand	</asp:ListItem>
-                                        <asp:ListItem Value="Karnataka">	Karnataka	</asp:ListItem>
-                                        <asp:ListItem Value="Kerala">	Kerala	</asp:ListItem>
-                                        <asp:ListItem Value="Ladakh">	Ladakh	</asp:ListItem>
-                                        <asp:ListItem Value="Lakshadweep">	Lakshadweep	</asp:ListItem>
-                                        <asp:ListItem Value="MadhyaPradesh">	MadhyaPradesh	</asp:ListItem>
-                                        <asp:ListItem Value="Maharashtra">	Maharashtra	</asp:ListItem>
-                                        <asp:ListItem Value="Manipur">	Manipur	</asp:ListItem>
-                                        <asp:ListItem Value="Meghalaya">	Meghalaya	</asp:ListItem>
-                                        <asp:ListItem Value="Mizoram">	Mizoram	</asp:ListItem>
-                                        <asp:ListItem Value="Nagaland">	Nagaland	</asp:ListItem>
-                                        <asp:ListItem Value="Odisha">	Odisha	</asp:ListItem>
-                                        <asp:ListItem Value="Puducherry">	Puducherry	</asp:ListItem>
-                                        <asp:ListItem Value="Punjab">	Punjab	</asp:ListItem>
-                                        <asp:ListItem Value="Rajasthan">	Rajasthan	</asp:ListItem>
-                                        <asp:ListItem Value="Sikkim">	Sikkim	</asp:ListItem>
-                                        <asp:ListItem Value="Tamil Nadu">	Tamil Nadu	</asp:ListItem>
-                                        <asp:ListItem Value="Telangana">	Telangana	</asp:ListItem>
-                                        <asp:ListItem Value="Tripura">	Tripura	</asp:ListItem>
-                                        <asp:ListItem Value="Uttar Pradesh">	Uttar Pradesh	</asp:ListItem>
-                                        <asp:ListItem Value="Uttrakhand">	Uttrakhand	</asp:ListItem>
-                                        <asp:ListItem Value="West Bengal">	West Bengal	</asp:ListItem>
-                                    </asp:DropDownList>
+                                <asp:TextBox class="form-control" placeholder="State" Text="Maharashtra" ID="txtState"
+                                    runat="server" ClientIDMode="Static"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator3" runat="server" 
+       ControlToValidate="txtAddress" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid State" /> 
                                 <label id="lblState" class="form-error">
                                 </label>
                             </div>
@@ -313,6 +254,10 @@
                                 </label>
                                 <asp:TextBox class="form-control" placeholder="Address" ID="txtAddress" TextMode="MultiLine"
                                     Rows="2" runat="server" ClientIDMode="Static"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator4" runat="server" 
+       ControlToValidate="txtAddress" ForeColor="Red"
+       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
+       Text="Enter a valid Address" /> 
                                 <label id="lblAddress" class="form-error">
                                 </label>
                             </div>
@@ -330,7 +275,7 @@
                 <asp:UpdateProgress ID="UpdateProgress1" runat="server" AssociatedUpdatePanelID="upp">
                     <ProgressTemplate>
                         <div class="text form_loader">
-                            <img src="images/Loader.gif" alt="Loading">
+                            <img src="../images/Loader.gif" alt="Loading">
                         </div>
                     </ProgressTemplate>
                 </asp:UpdateProgress>
@@ -368,10 +313,6 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Enter Full Name" ID="txtEditFullName"
                                     runat="server" ClientIDMode="Static"></asp:TextBox>
-                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" 
-                                         ControlToValidate="txtEditFullName" ForeColor="Red"
-                                                                ValidationExpression="^[a-zA-Z'.\s]{1,50}"
-                                                        Text="Enter a valid Name" />
                                 <label id="lblEditFullName" class="form-error">
                                 </label>
                             </div>
@@ -382,9 +323,6 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Enter Email Id" ID="txtEditEmailId"
                                     runat="server" ClientIDMode="Static"></asp:TextBox>
-                                    <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="txtEditEmailId"
-    ForeColor="Red" ValidationExpression="^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$"
-    Display = "Dynamic" ErrorMessage = "Invalid email Address"/>
                                 <label id="lblEditEmailId" class="form-error">
                                 </label>
                             </div>
@@ -435,10 +373,6 @@
                             <div class="form-group">
                                 <asp:TextBox class="form-control" placeholder="Degree" ID="txtEditDegree" runat="server"
                                     ClientIDMode="Static"></asp:TextBox>
-                                     <asp:RegularExpressionValidator ID="RegularExpressionValidator5" runat="server" 
-       ControlToValidate="txtEditDegree" ForeColor="Red"
-       ValidationExpression="^[a-zA-Z'.\s]{1,50}"
-       Text="Enter a valid Degree" />
                                 <label id="lblEditDegree" class="form-error">
                                 </label>
                             </div>
@@ -892,387 +826,6 @@
                 });
             });
         });
-
-
-
-        function isNumber(evt) {
-    evt = (evt) ? evt : window.event;
-    var charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    return true;
-}
-function IsValidEmail12(email) {
-  var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-    if (validRegex.test(email) == false) {
-        return false;
-    }
-
-    return true;
-
-}
-function onlyNumbers(phone) {
-    var error = "";
-    var stripped = phone.replace(/[\(\)\.\-\ ]/g, '');
-
-    if (isNaN(parseInt(stripped))) {
-        return false;
-
-
-    } else if (!(stripped.length == 10)) {
-
-        return false;
-    }
-    else { return true; }
-}
-
-
-function IsValidEmail(email) {
-    var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
-    if (reg.test(email) == false) {
-        return false;
-    }
-
-    return true;
-
-}
-
-
-function addDoctorValidate() {
-    var icount = 0;
-    //    if ($("#txtMobile").val().trim() == "") 
-    //    {
-    //        icount++;
-    //        $('#txtMobile').addClass('has-error');
-    //        $("#lblMobile").html("Please enter your Mobile No. *");
-    //        $("#lblMobile").show();
-    //    }
-    //    else 
-    //    {
-    //        $('#txtMobile').addClass('has-error');
-    //        $("#lblMobile").hide();
-
-    //        var e = onlyNumbers($("#txtMobile").val());
-    //        if (!e) 
-    //        {
-    //            icount++;
-    //            $('#txtMobile').addClass('has-error');
-    //            $("#lblMobile").html("* Please enter a valid Mobile No.");
-    //            $("#lblMobile").show();
-    //        }
-    //        else 
-    //        {
-    //            $('#txtMobile').removeClass('has-error');
-    //            $("#lblMobile").hide();
-    //        }
-    //    }
-
-    if ($("#txtMobile").val().trim() != "") {
-        var e = onlyNumbers($("#txtMobile").val());
-        if (!e) {
-            icount++;
-            $('#txtMobile').addClass('has-error');
-            $("#lblMobile").html("* Please enter a valid Mobile No.");
-            $("#lblMobile").show();
-        } else {
-            $('#txtMobile').removeClass('has-error');
-            $("#lblMobile").hide();
-        }
-    }
-
-    if ($("#txtFullName").val() == "") {
-        $("#txtFullName").addClass("has-error");
-        $("#lblFullName").html("Name required *");
-        // return false;
-        icount++;
-    }
-    else {
-        $('#txtFullName').removeClass('has-error');
-        $("#lblFullName").hide();
-    }
-
-
-    //    if ($("#txtEmailId").val().trim() == "") {
-    //        icount++;
-    //        $('#txtEmailId').addClass('has-error');
-    //        $("#lblEmailId").html("* Please enter your email");
-    //        $("#lblEmailId").show();
-    //    } else 
-    //    {
-
-    if ($("#txtEmailId").val().trim() != "" || ($("#txtEmailId").val()=="")) {
-   // if ($("#txtEmailId").val().trim() != "") {
-        var e = IsValidEmail12($("#txtEmailId").val());
-        if (!e) {
-            icount++;
-            $('#txtEmailId').addClass('has-error');
-            $("#lblEmailId").html("* Please enter a valid email address");
-            $("#lblEmailId").show();
-        } else {
-            $('#lblEmailId').removeClass('has-error');
-            $("#lblEmailId").hide();
-        }
-    }
-
-
-    if ($("#selGender").val() == "select") {
-        $("#selGender").addClass("has-error");
-        $("#lblGender").html("Gender required *");
-        $("#lblGender").show();
-        // return false;
-        icount++;
-    }
-    else {
-        $('#selGender').removeClass('has-error');
-        $("#lblGender").hide();
-    }
-
-    if ($("#txtSpecialization").val() == "select") {
-        $("#txtSpecialization").addClass("has-error");
-        $("#lblSpecialization").html("Specialization required *");
-        $("#lblSpecialization").show();
-        // return false;
-        icount++;
-    }
-    else {
-        $('#txtSpecialization').removeClass('has-error');
-        $("#lblSpecialization").hide();
-    }
-
-
-    //    else if (!isDate($("#txtBirthDate").val())) {
-    //        $("#txtBirthDate").addClass("has-error");
-    //        $("#lblBirthDate").html("Invalid birthdate *");
-    //        return false;
-    //    }
-
-
-    //    if ($("#txtBirthDate").val() == '') {
-    //        $("#txtBirthDate").addClass("has-error");
-    //        $("#lblBirthDate").html("birthdate * (mm/dd/yyyy) required");
-    //        // return false;
-    //        icount++;
-    //    }
-    //    else {
-    //        $('#txtBirthDate').removeClass('has-error');
-    //        $("#lblBirthDate").hide();
-    //    }
-
-
-    if ($("#txtAddress").val() == "") {
-        $("#txtAddress").addClass("has-error");
-        $("#lblAddress").html("Address required *");
-        //  return false;
-        icount++;
-    }
-    else {
-        $('#txtAddress').removeClass('has-error');
-        $("#lblAddress").hide();
-    }
-
-
-    if ($("#txtDegree").val() == "") {
-        $("#txtDegree").addClass("has-error");
-        $("#lblDegree").html("Degree required *");
-        //  return false;
-        icount++;
-    }
-    else {
-        $('#txtDegree').removeClass('has-error');
-        $("#lblDegree").hide();
-    }
-
-
-    //          if ($("#txtSpecialization").val() == "") {
-    //        $("#txtSpecialization").addClass("has-error");
-    //        $("#lblSpecialization").html("Specialization required *");
-    //        //  return false;
-    //        icount++;
-    //    }
-    //    else {
-    //        $('#txtSpecialization').removeClass('has-error');
-    //        $("#lblSpecialization").hide();
-    //    }
-
-
-    if ($("#txtClinic").val() == "") {
-        $("#txtClinic").addClass("has-error");
-        $("#lblClinic").html("Clinic required *");
-        //  return false;
-        icount++;
-    }
-    else {
-        $('#txtClinic').removeClass('has-error');
-        $("#lblClinic").hide();
-    }
-
-
-    //    else if ($("#txtCountry").val() == "") {
-    //        $("#txtCountry").addClass("has-error");
-    //        $("#lblCountry").html("Country required *");
-    //        return false;
-    //    }
-    if ($("#txtState").val() == "") {
-        $("#txtState").addClass("has-error");
-        $("#lblState").html("State required *");
-        //  return false;
-        icount++;
-    }
-    else {
-        $('#txtState').removeClass('has-error');
-        $("#lblState").hide();
-    }
-
-
-    if ($("#txtCity").val() == "") {
-        $("#txtCity").addClass("has-error");
-        $("#lblCity").html("City required *");
-        //  return false;
-        icount++;
-    }
-    else {
-        $('#txtCity').removeClass('has-error');
-        $("#lblCity").hide();
-    }
-
-    if ($("#txtPincode").val() == "" || isNaN($("#txtPincode").val()) == true) {
-        $("#txtPincode").addClass("has-error");
-        $("#lblPincode").html("Pincode required *");
-        // return false;
-        icount++;
-    }
-    else {
-        $('#txtPincode').removeClass('has-error');
-        $("#lblPincode").hide();
-    }
-
-
-    if (icount > 0) {
-
-        return false;
-    }
-    else {
-        return true;
-    }
-
-}
-
-
-
-function editDoctorValidate() {
-
-    //    if ($("#txtEditMobile").val() == "") {
-    //        $("#txtEditMobile").addClass("has-error");
-    //        $("#lblEditMobile").html("Mobile required *");
-    //        return false;
-    //    }
-
-    if ($("#txtEditMobile").val().trim() != "") {
-        var e = onlyNumbers($("#txtEditMobile").val());
-        if (!e) {
-            icount++;
-            $('#txtEditMobile').addClass('has-error');
-            $("#lblEditMobile").html("* Please enter a valid Mobile No.");
-            $("#lblEditMobile").show();
-            return false;
-        }
-        else {
-            $('#txtEditMobile').removeClass('has-error');
-            $("#lblEditMobile").hide();
-        }
-    }
-    else if ($("#txtEditFullName").val() == "") {
-        $("#txtEditFullName").addClass("has-error");
-        $("#lblEditFullName").html("Name required *");
-        return false;
-    }
-    //    else if (isNaN($("#txtEditMobile").val()) || $("#txtEditMobile").val().length < 10) {
-    //        $("#txtEditMobile").addClass("has-error");
-    //        $("#lblEditMobile").html("Invalid contact *");
-    //        return false;
-    //    }
-    //    else if ($("#txtEditEmailId").val() == "") {
-    //        $("#txtEditEmailId").addClass("has-error");
-    //        $("#lblEditEmailId").html("Email id required *");
-    //        return false;
-    //    }
-
-    else if ($("#txtEditEmailId").val().trim() != "") {
-        var e = IsValidEmail12($("#txtEditEmailId").val());
-        if (!e) {
-            icount++;
-            $('#txtEditEmailId').addClass('has-error');
-            $("#lblEditEmailId").html("* Please enter a valid email address");
-            $("#lblEditEmailId").show();
-            return false;
-        } else {
-            $('#lblEditEmailId').removeClass('has-error');
-            $("#lblEditEmailId").hide();
-        }
-    }
-    else if (IsValidEmail($("#txtEditEmailId").val()) == false) {
-        $("#txtEditEmailId").addClass("has-error");
-        $("#lblEditEmailId").html("Invalid email id *");
-        return false;
-    }
-    else if ($("#selEditGender").val() == "select") {
-        $("#txtEditGender").addClass("has-error");
-        $("#lblEditGender").html("Gender required *");
-        return false;
-    }
-    else if (!isDate($("#txtEditBirthDate").val())) {
-        $("#txtEditBirthDate").addClass("has-error");
-        $("#lblEditBirthDate").html("Invalid birthdate *");
-        return false;
-    }
-    else if ($("#txtEditAddress").val() == "") {
-        $("#txtEditAddress").addClass("has-error");
-        $("#lblEditAddress").html("Address required *");
-        return false;
-    }
-    else if ($("#txtEditDegree").val() == "") {
-        $("#txtEditDegree").addClass("has-error");
-        $("#lblEditDegree").html("Degree required *");
-        return false;
-    }
-    else if ($("#txtEditSpecialization").val() == "") {
-        $("#txtEditSpecialization").addClass("has-error");
-        $("#lblEditSpecialization").html("Specialization required *");
-        return false;
-    }
-    else if ($("#txtEditClinic").val() == "") {
-        $("#txtEditClinic").addClass("has-error");
-        $("#lblEditClinic").html("Clinic required *");
-        return false;
-    }
-    else if ($("#txtEditCountry").val() == "") {
-        $("#txtEditCountry").addClass("has-error");
-        $("#lblEditCountry").html("Country required *");
-        return false;
-    }
-    else if ($("#txtEditState").val() == "") {
-        $("#txtEditState").addClass("has-error");
-        $("#lblEditState").html("State required *");
-        return false;
-    }
-    else if ($("#txtEditCity").val() == "") {
-        $("#txtEditCity").addClass("has-error");
-        $("#lblEditCity").html("City required *");
-        return false;
-    }
-    else if ($("#txtEditPincode").val() == "" || isNaN($("#txtEditPincode").val()) == true) {
-        $("#txtEditPincode").addClass("has-error");
-        $("#lblEditPincode").html("Pincode required *");
-        return false;
-    }
-    
-    else {
-        return true;
-    }
-}
-
 
     
     </script>

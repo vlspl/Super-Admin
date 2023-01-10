@@ -12,8 +12,6 @@ using Validation;
 using System.Web.Script.Serialization;
 using System.Net;
 using System.Text;
-using System.Security.Cryptography;
-using System.IO;
 
 public partial class PatientList : System.Web.UI.Page
 {
@@ -55,8 +53,6 @@ public partial class PatientList : System.Web.UI.Page
             Response.Redirect("Error.htm");
         }
     }
-
- 
     protected void loadMyPatientsList()
     {
         try
@@ -73,29 +69,24 @@ public partial class PatientList : System.Web.UI.Page
                     {
                         //Load lab patient list
                         count = count + 1;
-                      
-                       // string mobile = (row["sMobile"].ToString() != "") ? CryptoHelper.Decrypt(row["sMobile"].ToString()) :CryptoHelper.Decrypt( "";
-                        tabMyPatientList +=
-                                             "<tr>" +
-                                           "<td scope='col'>" + row["sappuserid"].ToString() + "</td>" +
-                                            "<td scope='col'>" + row["sFullName"].ToString() + "</td>" +
-                                            "<td scope='col'>" + row["sGender"].ToString() + "</td>" +
-                                             "<td scope='col'>" + CryptoHelper.Decrypt(row["sMobile"].ToString()) + "</td>" +
-                                             "<td scope='col'>" + row["sAddress"].ToString() + "</td>" +
-
-
-                                               "<td scope='col'><a href='AddPatient.aspx?id=" + row["sAppUserId"].ToString() + "' '><i class='fa fa-edit fa-2x'></i></a></td>" +
-
-                                             "</tr>";
-                            
-                         
+                        string mobile = (row["sMobile"].ToString() != "") ? CryptoHelper.Decrypt(row["sMobile"].ToString()) : "";
+                        tabMyPatientList += "<li class='table-row'>" +
+                                           "<div class='col col-1 text-center' data-label='Sr. No.' id='SrNo" + row["sappuserid"].ToString() + "' clientidmode='static'>" + count + "</div>" +
+                                           "<div class='col col-2 text-center' TextAlig=right; data-label='Name' id='Fullname" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sFullName"].ToString() + "</div>" +
+                                           "<div class='col col-3 text-center' data-label='Gender' id='gender" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sGender"].ToString() + "</div>" +
+                                           "<div class='col col-4 text-center' data-label='Mobile' id='mobile" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + mobile + "</div>" +
+                                           "<div class='col col-5 text-center' data-label='Address' id='address" + row["sAppUserId"].ToString() + "' clientidmode='static'>" + row["sAddress"].ToString() + "</div>" +
+                                           "<div class='col col-6 text-center fa-color' data-label='Edit' ><a href='' id='" + row["sAppUserId"].ToString() + "' data-toggle='modal' data-target='#modalEditPatient' class='HideEditbtn'><i class='fa fa-edit' aria-hidden='true'></i></a></div>" +
+                                            "<div class='col col-7 text-center fa-color' data-label='View' ><a href='PatientInvoiceHistory.aspx?id=" + row["sAppUserId"].ToString() + "&Name=" + row["sFullName"].ToString() + "' class='btn btn-sm btn-color'>View</a></div>" +
+                                           "<div class='col col-7 text-center fa-color' data-label='View' ><a href='PatientReportHistoryManagement.aspx?id=" + row["sAppUserId"].ToString() + "' class='btn btn-sm btn-color'>View Health</a></div>" +
+                                       "</li>";
 
                     }
-                    tbodyPatientList.InnerHtml = tabMyPatientList;
+                    tbodyPatientList.Text = tabMyPatientList;
                 }
                 else
                 {
-                    tbodyPatientList.InnerHtml = "<tr><td>No records found</td></tr>";
+                    tbodyPatientList.Text = "<tr><td>No records found</td></tr>";
                 }
             }
         }
@@ -139,10 +130,10 @@ public partial class PatientList : System.Web.UI.Page
             {
                 Msg += "● Please Enter Valid Mobile Number";
             }
-            //if (!Ival.IsInteger(txtPincode.Text))
-            //{
-            //    Msg += "● Please Enter Valid Pincode";
-            //}
+            if (!Ival.IsInteger(txtPincode.Text))
+            {
+                Msg += "● Please Enter Valid Pincode";
+            }
             if (Msg.Length > 0)
             {
                 ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('" + Msg + "');location.reload();", true);
@@ -174,8 +165,8 @@ public partial class PatientList : System.Web.UI.Page
 
 
 
-                   // SendOTP objsms = new SendOTP();
-                   // objsms.InvationSMSToDoctor(mobile, MSG);
+                    SendOTP objsms = new SendOTP();
+                    objsms.InvationSMSToDoctor(mobile, MSG);
 
 
                 }
