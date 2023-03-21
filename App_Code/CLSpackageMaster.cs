@@ -53,9 +53,9 @@ public class CLSpackageMaster
                  new SqlParameter("@returnval", SqlDbType.Int)
               
             };
-            packageId = DAL.ExecuteStoredProcedureRetnInt("Sp_insertPackageMasterEntry", param);
+            returnVal = DAL.ExecuteStoredProcedureRetnInt("Sp_insertPackageMasterEntry", param);
 
-           
+          // returnVal=
             
         }
         catch (Exception)

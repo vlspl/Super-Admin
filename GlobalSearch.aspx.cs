@@ -6,22 +6,28 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-public partial class GlobalSearch : System.Web.UI.Page
+public partial class SuperAdmin_GlobalSearch : System.Web.UI.Page
 {
-    CLSGlobalSearch objGlobalSearch = new CLSGlobalSearch();
+    CLSSuperAdminGlobalSearch objGlobalSearch = new CLSSuperAdminGlobalSearch();
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!Page.IsPostBack)
+        if (Request.Cookies["AdminId"].Value != null)
         {
-            if (Request.Cookies["username"].Value != null)
+            if (!Page.IsPostBack)
             {
                 string keyword = Request.QueryString["keyword"].ToString().Replace("'", "");
 
                 getListOfAllappUserforpatientList();
                 getListOfAllappUserfordoctorList();
+                getListOfAlllabUserList();
                 getListOfAlltestList();
+
             }
+        }
+        else
+        {
+            Response.Redirect("AdminLogin.aspx");
         }
     }
 
@@ -29,8 +35,10 @@ public partial class GlobalSearch : System.Web.UI.Page
     public void getListOfAllappUserforpatientList()
     {
         string keyword = Request.QueryString["keyword"].ToString().Replace("'", "");
-        string LabIdSession = Request.Cookies["labId"].Value.ToString();
-        DataSet ds = objGlobalSearch.PatientList(keyword, LabIdSession);
+        string tablename = "appUser";
+        string tableappusercolumnName = "sFullName";
+        string Role = "patient";
+        DataSet ds = objGlobalSearch.GetLabList(tablename, keyword, tableappusercolumnName, Role);
         if (ds != null)
         {
             if (ds.Tables[0].Rows.Count > 0)
@@ -58,13 +66,17 @@ public partial class GlobalSearch : System.Web.UI.Page
                 tbodyAllpatientlist.InnerHtml = "<tr><td>No Records Found</td></tr>";
             }
         }
+
+
     }
 
     public void getListOfAllappUserfordoctorList()
     {
         string keyword = Request.QueryString["keyword"].ToString().Replace("'", "");
-        string LabIdSession = Request.Cookies["labId"].Value.ToString();
-        DataSet ds = objGlobalSearch.DoctorList(keyword, LabIdSession);
+        string tablename = "appUser";
+        string tableappusercolumnName = "sFullName";
+        string Role = "doctor";
+        DataSet ds = objGlobalSearch.GetLabList(tablename, keyword, tableappusercolumnName, Role);
         if (ds != null)
         {
             if (ds.Tables[0].Rows.Count > 0)
@@ -96,12 +108,49 @@ public partial class GlobalSearch : System.Web.UI.Page
 
     }
 
+
+    public void getListOfAlllabUserList()
+    {
+        string keyword = Request.QueryString["keyword"].ToString().Replace("'", "");
+        string tablename = "labUser";
+        string tableappusercolumnName = "sFullName";
+        DataSet ds = objGlobalSearch.GetLabList(tablename, keyword, tableappusercolumnName);
+        if (ds != null)
+        {
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                string AllLabList = "";
+                int count = 0;
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    count = count + 1;
+                    AllLabList += "<tr>" +
+                                     "<td scope='col'>" + row["sLabCode"].ToString() + "</td>" +
+                                     "<td scope='col'>" + row["sFullName"].ToString() + "</td>" +
+                                     "<td scope='col'>" + row["sEmailId"].ToString() + "</td>" +
+                                     "<td scope='col'>" + row["Scontact"].ToString() + "</td>" +
+                                     "<td scope='col'>" + row["sRole"].ToString() + "</td>" +
+                                     "<td scope='col'>" + row["sDescription"].ToString() + "</td>" +
+                                      "</tr>";
+                }
+                tbodyAllLabUsers.InnerHtml = AllLabList;
+            }
+            else
+            {
+                tbodyAllLabUsers.InnerHtml = "<tr><td>No Records Found</td></tr>";
+            }
+        }
+
+
+    }
+
+
     public void getListOfAlltestList()
     {
         string keyword = Request.QueryString["keyword"].ToString().Replace("'", "");
         string tablename = "test";
         string tableappusercolumnName = "sTestName";
-        DataSet ds = objGlobalSearch.GetList(tablename, keyword, tableappusercolumnName);
+        DataSet ds = objGlobalSearch.GetLabList(tablename, keyword, tableappusercolumnName);
         if (ds != null)
         {
             if (ds.Tables[0].Rows.Count > 0)
@@ -115,7 +164,7 @@ public partial class GlobalSearch : System.Web.UI.Page
                                    "<td scope='col'>" + row["sTestCode"].ToString() + "</td>" +
                                    "<td scope='col'>" + row["sTestName"].ToString() + "</td>" +
                                    "<td scope='col'>" + row["sTestUsefulFor"].ToString() + "</td>" +
-                                //   "<td scope='col'>" + row["sTestInterpretation"].ToString() + "</td>" +
+                                   "<td scope='col'>" + row["sTestInterpretation"].ToString() + "</td>" +
                                    "</tr>";
                 }
                 tbodyAllTestList.InnerHtml = AllLabList;

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LabMasterPage.master" AutoEventWireup="true" CodeFile="GlobalSearch.aspx.cs" Inherits="GlobalSearch" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/accessControlMaster.master" AutoEventWireup="true" CodeFile="GlobalSearch.aspx.cs" Inherits="SuperAdmin_GlobalSearch" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -36,15 +36,22 @@
            </div>
 
            <div class="col-sm-3">
+            <input type="radio" class="radio-custom" id="rdoLabUsers" name="nameActive" value="LabUsers" clientidmode="Static">
+            <label for="radio-3" class="radio-custom-label">Lab Users</label>
+           </div>
+
+           <div class="col-sm-3">
             <input type="radio" class="radio-custom" id="rdoTestList" name="nameActive" value="TestList" clientidmode="Static">
             <label for="radio-4" class="radio-custom-label">Test List</label>
            </div>
+
       </div>
         </div>
+
          </div>
          <!-- wrapper content -->
          <div class="wrappercontent" id="patientlist">
-            <table class="table text-center booking table-bordered table-hover">
+            <table class="table booking">
                <thead>
                   <tr>
                      <th>App ID</th>
@@ -57,13 +64,33 @@
                      <th>City</th>
                   </tr>
                </thead>
-               <tbody id="tbodyAllpatientlist" runat="server" clientidmode="Static">
+               <tbody id="tbodyAllpatientlist" runat="server" clientidmode="Static">                  
+                  <%--<tr>
+                     <td>#LAB0231</td>
+                     <td>Pooja Sharma</td>
+                     <td>Lipid Profile</td>
+                     <td>Rahul Gahilod</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 270</td>
+                     <td><i class="fa fa-user fa-lg" aria-hidden="true"></i></td>
+                     <td><a href="" class="lab-btn-primary">Confirm</a><a href="details.html" class="lab-btn-secondary">View Details</a></td>
+                  </tr>       --%>          
                </tbody>
             </table>
+            <%--<div class="pagination">
+               <a href="#" style="border-radius: 20px;padding: 8px 14px 8px 8px;"><i class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i> PREV</a>
+               <a href="#">1</a>
+               <a class="active" href="#">2</a>
+               <a href="#">3</a>
+               <a href="#">4</a>
+               <a href="#">5</a>
+               <a href="#">6</a>
+               <a href="#" style="border-radius: 20px;padding: 8px 8px 8px 14px;">NEXT <i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></a>
+            </div>--%>
          </div>
+
 
          <div class="wrappercontent" id="DoctorsList">
-            <table class="table text-center booking table-bordered table-hover">
+            <table class="table booking">
                <thead>
                   <tr>
                      <th>App ID</th>
@@ -76,26 +103,106 @@
                      <th>City</th>
                   </tr>
                </thead>
-               <tbody id="tbodyAllDoctorsList" runat="server" clientidmode="Static">  
+               <tbody id="tbodyAllDoctorsList" runat="server" clientidmode="Static">                  
+                  <%--<tr>
+                     <td>#LAB0231</td>
+                     <td>Pooja Sharma</td>
+                     <td>Lipid Profile</td>
+                     <td>Rahul Gahilod</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 270</td>
+                     <td><i class="fa fa-user fa-lg" aria-hidden="true"></i></td>
+                     <td><a href="" class="lab-btn-primary">Confirm</a><a href="details.html" class="lab-btn-secondary">View Details</a></td>
+                  </tr>       --%>          
                </tbody>
             </table>
+            <%--<div class="pagination">
+               <a href="#" style="border-radius: 20px;padding: 8px 14px 8px 8px;"><i class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i> PREV</a>
+               <a href="#">1</a>
+               <a class="active" href="#">2</a>
+               <a href="#">3</a>
+               <a href="#">4</a>
+               <a href="#">5</a>
+               <a href="#">6</a>
+               <a href="#" style="border-radius: 20px;padding: 8px 8px 8px 14px;">NEXT <i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></a>
+            </div>--%>
          </div>
 
-         <div class="wrappercontent" id="TestList">
-            <table class="table text-center booking table-bordered table-hover">
+
+         <div class="wrappercontent" id="LabUsersList">
+            <table class="table booking">
                <thead>
                   <tr>
-                     <th>Test Code</th>
-                     <th>Test Name</th>
-                     <th>Test Userful For</th>
+                     <th>Lab ID</th>
+                     <th>Lab Name</th>
+                     <th>Lab Address</th>
+                     <th>Status</th>
+                     <th>Contact Number</th>
+                     <th>Action 1</th>
+                     <th>Action 2</th>
+                     <th>Action 3</th>
                   </tr>
                </thead>
-               <tbody id="tbodyAllTestList" runat="server" clientidmode="Static"> 
+               <tbody id="tbodyAllLabUsers" runat="server" clientidmode="Static">                  
+                  <%--<tr>
+                     <td>#LAB0231</td>
+                     <td>Pooja Sharma</td>
+                     <td>Lipid Profile</td>
+                     <td>Rahul Gahilod</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 270</td>
+                     <td><i class="fa fa-user fa-lg" aria-hidden="true"></i></td>
+                     <td><a href="" class="lab-btn-primary">Confirm</a><a href="details.html" class="lab-btn-secondary">View Details</a></td>
+                  </tr>       --%>          
                </tbody>
             </table>
+            <%--<div class="pagination">
+               <a href="#" style="border-radius: 20px;padding: 8px 14px 8px 8px;"><i class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i> PREV</a>
+               <a href="#">1</a>
+               <a class="active" href="#">2</a>
+               <a href="#">3</a>
+               <a href="#">4</a>
+               <a href="#">5</a>
+               <a href="#">6</a>
+               <a href="#" style="border-radius: 20px;padding: 8px 8px 8px 14px;">NEXT <i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></a>
+            </div>--%>
+         </div>
+
+
+         <div class="wrappercontent" id="TestList">
+            <table class="table booking">
+               <thead>
+                  <tr>
+                     <th>Lab ID</th>
+                     <th>Lab Name</th>
+                     <th>Lab Address</th>
+                     <th>Status</th>
+                  </tr>
+               </thead>
+               <tbody id="tbodyAllTestList" runat="server" clientidmode="Static">                  
+                  <%--<tr>
+                     <td>#LAB0231</td>
+                     <td>Pooja Sharma</td>
+                     <td>Lipid Profile</td>
+                     <td>Rahul Gahilod</td>
+                     <td><i class="fa fa-inr" aria-hidden="true"></i> 270</td>
+                     <td><i class="fa fa-user fa-lg" aria-hidden="true"></i></td>
+                     <td><a href="" class="lab-btn-primary">Confirm</a><a href="details.html" class="lab-btn-secondary">View Details</a></td>
+                  </tr>       --%>          
+               </tbody>
+            </table>
+            <%--<div class="pagination">
+               <a href="#" style="border-radius: 20px;padding: 8px 14px 8px 8px;"><i class="fa fa-arrow-circle-left fa-lg" aria-hidden="true"></i> PREV</a>
+               <a href="#">1</a>
+               <a class="active" href="#">2</a>
+               <a href="#">3</a>
+               <a href="#">4</a>
+               <a href="#">5</a>
+               <a href="#">6</a>
+               <a href="#" style="border-radius: 20px;padding: 8px 8px 8px 14px;">NEXT <i class="fa fa-arrow-circle-right fa-lg" aria-hidden="true"></i></a>
+            </div>--%>
          </div>
       </div>
    </div>
+
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript">
@@ -106,34 +213,64 @@
         $('#LabUsersList').removeClass("hide");
         $('#TestList').removeClass("hide");
 
+
+
         var rows = $("#tbodyAllLabList").find("tr").hide();
         rows.filter(":contains('Active')").show();
+
         $("#rdoPatients").change(function () {
             $('#patientlist').removeClass("hide");
             $('#DoctorsList').addClass("hide");
             $('#LabUsersList').addClass("hide");
             $('#TestList').addClass("hide");
+
+//            var rows = $("#tbodyAllLabList").find("tr").hide();
+//            rows.filter(":contains('Active')").show();
         });
+
 
         $("#rdoDoctors").change(function () {
             $('#patientlist').addClass("hide");
             $('#DoctorsList').removeClass("hide");
             $('#LabUsersList').addClass("hide");
             $('#TestList').addClass("hide");
+
+            //            var rows = $("#tbodyAllLabList").find("tr").hide();
+            //            rows.filter(":contains('Active')").show();
         });
+
+
+        $("#rdoLabUsers").change(function () {
+            $('#patientlist').addClass("hide");
+            $('#DoctorsList').addClass("hide");
+            $('#LabUsersList').removeClass("hide");
+            $('#TestList').addClass("hide");
+
+            //            var rows = $("#tbodyAllLabList").find("tr").hide();
+            //            rows.filter(":contains('Active')").show();
+        });
+
 
         $("#rdoTestList").change(function () {
             $('#patientlist').addClass("hide");
             $('#DoctorsList').addClass("hide");
             $('#LabUsersList').addClass("hide");
             $('#TestList').removeClass("hide");
+
+            //            var rows = $("#tbodyAllLabList").find("tr").hide();
+            //            rows.filter(":contains('Active')").show();
         });
+
+
 
         $("#rdoAll").change(function () {
             $('#patientlist').removeClass("hide");
             $('#DoctorsList').removeClass("hide");
             $('#LabUsersList').removeClass("hide");
             $('#TestList').removeClass("hide");
+
+            //            var rows = $("#tbodyAllLabList").find("tr").hide();
+            //            rows.filter(":contains('Active')").show();
         });
 
         $("#rdoInactive").change(function () {

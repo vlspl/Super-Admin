@@ -1,105 +1,82 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using System.Web.UI;
+using System.Web.UI.WebControls;
 using System.Data;
 
-public partial class ManageRoles : System.Web.UI.Page
+public partial class SuperAdmin_ManageRoles : System.Web.UI.Page
 {
     ClsManageRoles objLabRoles = new ClsManageRoles();
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (Request.Cookies["AdminId"].Value != null)
         {
-            if (Request.Cookies["loggedIn"] != null)
+            if (!IsPostBack)
             {
-                if (!IsPostBack)
-                {
-                    loadLabRoles();
-                }
-            }
-            else
-            {
-                Response.Redirect("LabLogin.aspx");
+                loadLabRoles();
             }
         }
-        catch
+        else
         {
-            Response.Redirect("Error.htm");
+            Response.Redirect("AdminLogin.aspx");
         }
     }
     protected void loadLabRoles()
     {
-        try
-        {
-            DataSet dsRoles = objLabRoles.getRoles(Request.Cookies["labId"].Value.ToString());
+        DataSet dsRoles = objLabRoles.getRoles(Request.Cookies["AdminId"].Value.ToString());
 
-            if (dsRoles != null)
+        if (dsRoles != null)
+        {
+            if (dsRoles.Tables[0].Rows.Count > 0)
             {
-                if (dsRoles.Tables[0].Rows.Count > 0)
-                {
-                    string tabRolesList = "";
+                string tabRolesList = "";
 
-                    foreach (DataRow row in dsRoles.Tables[0].Rows)
-                    {
-                        //Load lab roles list
-                        tabRolesList += "<tr>" +
-                                           "<td scope='col'>" + row["sRole"].ToString() + "</td>" +
-                                           "<td scope='col'><a href='' id='" + row["sLabUserRoleId"].ToString() + "' data-toggle='modal' data-target='#modalDeleteRoleConfirm'><i class='fa fa-trash-o margin-0' aria-hidden='true'></i></a></td>" +
-                                        "</tr>";
-                    }
-
-                    tbodyRolesList.InnerHtml = tabRolesList;
-                }
-                else
+                foreach (DataRow row in dsRoles.Tables[0].Rows)
                 {
-                    tbodyRolesList.InnerHtml = "<tr><td>No records found</td></tr>";
+                    //Load lab roles list
+                    tabRolesList += "<tr>" +
+                                       "<td scope='col'>" + row["sRollName"].ToString() + "</td>" +
+                                       "<td scope='col'><a href='' id='" + row["sRollsID"].ToString() + "' data-toggle='modal' data-target='#modalDeleteRoleConfirm'><i class='fa fa-trash-o margin-0' aria-hidden='true'></i></a></td>" +
+                                    "</tr>";
                 }
+
+                tbodyRolesList.InnerHtml = tabRolesList;
             }
-        }
-        catch
-        {
-            Response.Redirect("Error.htm");
+            else
+            {
+                tbodyRolesList.InnerHtml = "<tr><td>No records found</td></tr>";
+            }
         }
     }
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        try
-        {
-            string labId = Request.Cookies["labId"].Value.ToString();
-            string role = selRole.Value;
+        string labId = Request.Cookies["AdminId"].Value.ToString();
+        string role = txtRole.Text.ToString();
 
-            if (objLabRoles.addRole(labId, role) == 1)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
-            }
-            else if (objLabRoles.addRole(labId, role) == 0)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
-            }
-        }
-        catch
+        if (objLabRoles.addRole(labId, role) == 1)
         {
-            Response.Redirect("Error.htm");
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
         }
+        else if (objLabRoles.addRole(labId, role) == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
+        }
+        Response.Redirect("ManageRoles.aspx");
     }
     protected void btnDeleteRoleYes_Click(object sender, EventArgs e)
     {
-        try
-        {
-            string labUserRoleId = hiddenDeleteRole.Value;
+        string labUserRoleId = hiddenDeleteRole.Value;
 
-            if (objLabRoles.deleteRole(labUserRoleId) == 1)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
-            }
-            else if (objLabRoles.deleteRole(labUserRoleId) == 0)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
-            }
-        }
-        catch
+        if (objLabRoles.deleteRole(labUserRoleId) == 1)
         {
-            Response.Redirect("Error.htm");
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
         }
+        else if (objLabRoles.deleteRole(labUserRoleId) == 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
+        }
+        Response.Redirect("ManageRoles.aspx");
     }
-
 }

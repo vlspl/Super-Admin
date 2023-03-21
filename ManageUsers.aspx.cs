@@ -7,234 +7,205 @@ using System.Web.UI.WebControls;
 using System.Data;
 using CrossPlatformAESEncryption.Helper;
 using Validation;
+using DataAccessHandler;
+using System.Data.SqlClient;
 
-public partial class ManageUsers : System.Web.UI.Page
+public partial class SuperAdmin_ManageUsers : System.Web.UI.Page
 {
-    ClsManageUsers objLabUser = new ClsManageUsers();
+    ClsManageSuperUsers objLabUser = new ClsManageSuperUsers();
+    DBClass db = new DBClass();
+    DataAccessLayer DAL = new DataAccessLayer();
     InputValidation Ival = new InputValidation();
-
     protected void Page_Load(object sender, EventArgs e)
     {
-        try
+        if (Request.Cookies["AdminId"].Value != null)
         {
-            if (Request.Cookies["loggedIn"] != null)
+            if (!IsPostBack)
             {
-                if (!IsPostBack)
+                loadSuperAdminUsersList();
+                db.bindDrp("select distinct rollMasterId, rollName from rollMaster order by rollName asc", drproleMaster, "rollName", "rollMasterId");
+                drproleMaster.Items.Insert(0, new ListItem("-Select Role-"));
+            }
+        }
+        else
+        {
+            Response.Redirect("AdminLogin.aspx");
+        }
+    }
+    protected void loadSuperAdminUsersList()
+    {
+        //DataSet ds = objLabUser.getSuperAdminUsers(Request.Cookies["AdminId"].Value.ToString());
+        SqlParameter[] paramEmgAgeRatio = new SqlParameter[]
+         {
+                           
+
+          };
+        DataSet ds = DAL.ExecuteStoredProcedureDataSet("Sp_GetSuperAdminUsers", paramEmgAgeRatio);
+       // DataSet dsRoles = objLabUser.getSuperAdminUserRoles(Request.Cookies["AdminId"].Value.ToString());
+
+        if (ds != null)
+        {
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                string tabLabUsersList = "";
+
+                foreach (DataRow row in ds.Tables[0].Rows)
                 {
-                    loadLabUsersList();
+                    string _emailId = row["sEmailId"].ToString() != "" ? CryptoHelper.Decrypt(row["sEmailId"].ToString()) : "";
+                    string _mobile = row["sContact"].ToString() != "" ? CryptoHelper.Decrypt(row["sContact"].ToString()) : "";
+
+                    //Load lab users list
+                    tabLabUsersList += "<tr>" +
+                                        "<td scope='col' id='name" + row["sSuperAdminUserId"].ToString() + "' clientidmode='static'>" + row["sFullName"].ToString() + "</td>" +
+                                        "<td scope='col' id='emailId" + row["sSuperAdminUserId"].ToString() + "' clientidmode='static'>" + _emailId + "</td>" +
+                                        "<td scope='col' id='contact" + row["sSuperAdminUserId"].ToString() + "' clientidmode='static'>" + _mobile + "</td>" +
+                                        "<td scope='col' id='description" + row["sSuperAdminUserId"].ToString() + "' clientidmode='static'>" + row["sRole"].ToString() + "</td>" +
+                                        "<td scope='col'><a href='' id='" + row["sSuperAdminUserId"].ToString() + "' data-toggle='modal' data-target='#modalDeleteUserConfirm'><i class='fa fa-trash fa-2x'></i></a></td>" +
+                                     "</tr>";
                 }
+                tbodyLabUsersList.InnerHtml = tabLabUsersList;
             }
             else
             {
-                Response.Redirect("LabLogin.aspx");
+                tbodyLabUsersList.InnerHtml = "<tr><td>No records found</td></tr>";
             }
-        }
-        catch
-        {
-            Response.Redirect("Error.htm");
-        }
-    }
-    protected void loadLabUsersList()
-    {
-        try
-        {
-            DataSet ds = objLabUser.getLabUsers(Request.Cookies["labId"].Value.ToString());
-            DataSet dsRoles = objLabUser.getLabUserRoles(Request.Cookies["labId"].Value.ToString());
-
-            if (ds != null)
-            {
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-                    string tabLabUsersList = "";
-
-                    foreach (DataRow row in ds.Tables[0].Rows)
-                    {
-                        string fullName = "'" + row["sFullName"].ToString() + "'";
-                        string emailId = row["sEmailId"].ToString() != "" ? CryptoHelper.Decrypt(row["sEmailId"].ToString()) : "";
-                        string contact = row["sContact"].ToString() != "" ? CryptoHelper.Decrypt(row["sContact"].ToString()) : "";
-                        string description = row["sDescription"].ToString();
-
-                        
-                        //Load lab users list
-                        tabLabUsersList += "<li class='table-row'>" +
-                                           "<div class='col col-1 text-center' id='name" + row["sLabUserId"].ToString() + "' clientidmode='static'>" + row["sFullName"].ToString() + "</div>" +
-                                           "<div class='col col-2 text-center' id='emailId" + row["sLabUserId"].ToString() + "' clientidmode='static'>" + emailId + "</div>" +
-                                           "<div class='col col-3 text-center' id='contact" + row["sLabUserId"].ToString() + "' clientidmode='static'>" + contact + "</div>" +
-                                           "<div class='col col-4 text-center' id='role" + row["sLabUserId"].ToString() + "' clientidmode='static'>" + row["sRole"].ToString() + "</div>" +
-                                           "<div class='col col-5 text-center' id='description" + row["sLabUserId"].ToString() + "' clientidmode='static'>" + row["sDescription"].ToString() + "</div>" +
-                                           "<div class='col col-6 text-center' ><a href='' class='HideEditbtn' id='" + row["sLabUserId"].ToString() + "' data-toggle='modal' data-target='#modalEditUser'><i class='fa fa-edit fa-color' aria-hidden='true'></i></a></div>" +
-                                           "<div class='col col-7 text-center'><a  class='HideEditbtn' href='editroles.aspx?roleuserid=" + row["sLabUserId"].ToString() + "' id='" + row["sLabUserId"].ToString() + "' ><i class='fa fa-edit fa-color' aria-hidden='true'></i></a></div>" +
-                                           "<div class='col col-8 text-center' ><a class='HideEditbtn' href='' id='" + row["sLabUserId"].ToString() + "' data-toggle='modal' data-target='#modalDeleteUserConfirm'><i class='fa fa-trash fa-color' aria-hidden='true'></i></a></div>" +
-                                        "</li>";
-                    }
-                    tbodyLabUsersList.Text = tabLabUsersList;
-                }
-                else
-                {
-                    tbodyLabUsersList.Text = "<tr><td>No records found</td></tr>";
-                }
-            }
-        }
-        catch
-        {
-            Response.Redirect("Error.htm");
         }
     }
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        try
+        string Msg = "";
+        if (txtFullName.Text != "")
         {
-            string Msg = "";
-            if (!Ival.IsCharOnly(txtFullName.Text))
+            if (txtEmailId.Text != "")
             {
-                Msg += "● Please Enter Valid Name";
-            }
-            if (!Ival.IsTextBoxEmpty(txtEmailId.Text))
-            {
-                if (!Ival.IsValidEmailAddress(txtEmailId.Text))
+                if (txtContact.Text != "")
                 {
-                    Msg += "● Please Enter Valid Email Id";
-                }
-            }
-            if (!Ival.IsTextBoxEmpty(txtContact.Text))
-            {
-                if (Ival.IsInteger(txtContact.Text))
-                {
-                    if (!Ival.MobileValidation(txtContact.Text))
+                    if (txtUserName.Text != "")
                     {
-                        Msg += "● Please Enter Valid Mobile Number";
+                        if (txtPassword.Text != "")
+                        {
+                            string labId = Request.Cookies["AdminId"].Value.ToString();
+                            string labCode = "Null";
+                            string fullname = txtFullName.Text;
+                            string emailId = txtEmailId.Text.ToLower();
+                            string contact = txtContact.Text;
+                            string description = txtDescription.Text;
+                            string userName = txtUserName.Text;
+                            string password = txtPassword.Text;
+                            string role = db.getData("select rollName from rollMaster where rollMasterId='" + drproleMaster.Text + "'");
+                            string roleId = db.getData("select rollMasterId from rollMaster where rollMasterId='" + drproleMaster.Text + "'");
+                            db.insert(@"INSERT INTO SuperAdminUser (sSuperAdminId,sSuperAdminCode,sFullName,sEmailId,sContact,sRole,sDescription,sUserName,sPassword)
+                        VALUES ('" + labId + "','" + labCode + "','" + fullname + "','" + CryptoHelper.Encrypt(emailId) + "','" + CryptoHelper.Encrypt(contact) + "','" + role + "','" + description + "','" + userName + "','" + password + "') ");
+                            string userId = db.getData("select max(sSuperAdminUserId) from SuperAdminUser");
+                            db.insert(@" insert into UserLoginMaster (UserId,[Mobile],[EmailId],[Password],[Role],UserName,rollMasterId)  
+                         values('" + userId + "','" + CryptoHelper.Encrypt(contact) + "','" + CryptoHelper.Encrypt(emailId) + "','" + CryptoHelper.Encrypt(password) + "','" + role + "','" + CryptoHelper.Encrypt(userName) + "','" + roleId + "')  ");
+
+
+                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('User Added successfully');location.href='ManageUsers.aspx';", true);
+
+                        }
+                        else
+                        {
+                            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('Enter User Password');", true);
+                        }
+                    }
+                    else
+                    {
+                        ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('Enter User Name');", true);
                     }
                 }
-            }
-            if (Ival.IsTextBoxEmpty(txtUserName.Text))
-            {
-                Msg += "● Please Enter Valid Username";
-            }
-            if (Ival.IsTextBoxEmpty(txtPassword.Text))
-            {
-                Msg += "● Please Enter Valid Username";
-            }
-            if (Msg.Length > 0)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('" + Msg + "');location.reload();", true);
+                else
+                {
+                    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('Enter Contact No');", true);
+                }
             }
             else
             {
-                string labId = Request.Cookies["labId"].Value.ToString();
-                string labCode = Request.Cookies["labCode"].Value.ToString();
-                string fullname = txtFullName.Text;
-                string emailId = txtEmailId.Text;
-                string contact = txtContact.Text;
-                string description = txtDescription.Text;
-                string userName = txtUserName.Text;
-                string password = txtPassword.Text;
-                string role = hiddenRoles.Value.TrimStart(',').TrimEnd(',');
-
-                if (objLabUser.addLabUser(labId, labCode, fullname, emailId, contact, description, userName, password, role) >= 1)
-                {
-                    lblMessage.Text = "Lab User Added Successfully";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
-                }
-                else if (objLabUser.addLabUser(labId, labCode, fullname, emailId, contact, description, userName, password, role) == 0)
-                {
-                    lblMessage.Text = "Error occurred while Adding Labuser";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');location.reload();", true);
-                }
-                else if (objLabUser.addLabUser(labId, labCode, fullname, emailId, contact, description, userName, password, role) == -3)
-                {
-                    lblMessage.Text = "This username is already registered, please use another username";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('This username is already registered, please use another username');location.reload();", true);
-                }
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('Enter Email ID');", true);
             }
         }
-        catch
+        else
         {
-            Response.Redirect("Error.htm");
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('Enter User Full Name');", true);
         }
+
+       
     }
     protected void btnDeleteUserYes_Click(object sender, EventArgs e)
     {
-        try
-        {
-            string labUserId = hiddenDeleteUser.Value;
-
-            if (objLabUser.deleteLabUser(labUserId) == 1)
-            {
-                lblMessage.Text = "Lab User Deleted Successfully";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
-            }
-            else if (objLabUser.deleteLabUser(labUserId) == 0)
-            {
-                lblMessage.Text = "Error occurred while Deleting Labuse";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
-            }
-        }
-        catch
-        {
-            Response.Redirect("Error.htm");
-        }
+        string labUserId = hiddenDeleteUser.Value;
+        db.insert("delete from SuperAdminUser where sSuperAdminUserId='" + labUserId + "'");
+        db.insert("delete from UserLoginMaster where UserId='" + labUserId + "'");
+       // ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "insertSuccess", "alert('User Deleted successfully');location.href='ManageUsers.aspx';", true);
+        //if (objLabUser.deleteSuperAdminUser(labUserId) == 1)
+        //{
+        //    Label lblMasterStatus = (Label)Master.FindControl("lblmsgText");
+        //    lblMasterStatus.Text = "User Delete Sucessfully";
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "Yopopupalert();", true);
+        //    // ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
+        //}
+        //else if (objLabUser.deleteSuperAdminUser(labUserId) == 0)
+        //{
+        //    Label lblMasterStatus = (Label)Master.FindControl("lblmsgText");
+        //    lblMasterStatus.Text = "Error Occured while Deleting User";
+        //    ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "Yopopupalert();", true);
+        //    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
+        //}
+        Response.Redirect("ManageUsers.aspx");
     }
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
-        try
+        string Msg = "";
+        if (Ival.IsTextBoxEmpty(txtFullNameEdit.Text))
         {
-            string Msg = "";
-            if (!Ival.IsCharOnly(txtFullNameEdit.Text))
+            Msg += "● Please Enter Valid Name";
+        }
+        if (!Ival.IsTextBoxEmpty(txtEmailIdEdit.Text))
+        {
+            if (!Ival.IsValidEmailAddress(txtEmailIdEdit.Text))
             {
-                Msg += "● Please Enter Valid Name";
-            }
-            if (!Ival.IsTextBoxEmpty(txtEmailIdEdit.Text))
-            {
-                if (!Ival.IsValidEmailAddress(txtEmailIdEdit.Text))
-                {
-                    Msg += "● Please Enter Valid Email Id";
-                }
-            }
-            if (!Ival.IsTextBoxEmpty(txtContactEdit.Text))
-            {
-                if (Ival.IsInteger(txtContactEdit.Text))
-                {
-                    if (!Ival.MobileValidation(txtContactEdit.Text))
-                    {
-                        Msg += "● Please Enter Valid Mobile Number";
-                    }
-                }
-            }
-            if (Msg.Length > 0)
-            {
-                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('" + Msg + "');location.reload();", true);
-            }
-            else
-            {
-                string labUserId = hiddenEditUser.Value;
-                string fullname = txtFullNameEdit.Text;
-                string emailId = txtEmailIdEdit.Text;
-                string contact = txtContactEdit.Text;
-                string description = txtDescriptionEdit.Text;
-                string role = hiddenRolesEdit.Value.TrimStart(',').TrimEnd(',');
-
-                if (objLabUser.updateLabUserRole(labUserId, fullname, emailId, contact, description, role) == 1)
-                {
-                    lblMessage.Text = "Lab User Updated Successfully";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                    //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
-                }
-                else if (objLabUser.updateLabUserRole(labUserId, fullname, emailId, contact, description, role) == 0)
-                {
-                    lblMessage.Text = "Error Occured while updating Lab user";
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "showModal();", true);
-                   // ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
-                }
+                Msg += "● Please Enter Valid Email Id";
             }
         }
-        catch
+        if (Ival.IsInteger(txtContactEdit.Text))
         {
-            Response.Redirect("Error.htm");
+            if (!Ival.MobileValidation(txtContactEdit.Text))
+            {
+                Msg += "● Please Enter Valid Mobile Number";
+            }
+        }
+        else
+        {
+            Msg += "● Please Enter Valid Mobile Number";
+        }
+        if (Msg.Length > 0)
+        {
+            ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('" + Msg + "');location.reload();", true);
+        }
+        else
+        {
+            string labUserId = hiddenEditUser.Value;
+            string fullname = txtFullNameEdit.Text;
+            string emailId = txtEmailIdEdit.Text.ToLower();
+            string contact = txtContactEdit.Text;
+            string description = txtDescriptionEdit.Text;
+            string role = "Admin";
+
+            if (objLabUser.updateSuperAdminUserRole(labUserId, fullname, emailId, contact, description, role) == 1)
+            {
+                Label lblMasterStatus = (Label)Master.FindControl("lblmsgText");
+                lblMasterStatus.Text = "User Update Successfully";
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "Yopopupalert();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "location.reload();", true);
+            }
+            else if (objLabUser.updateSuperAdminUserRole(labUserId, fullname, emailId, contact, description, role) == 0)
+            {
+                Label lblMasterStatus = (Label)Master.FindControl("lblmsgText");
+                lblMasterStatus.Text = "Error Occured While Updating User";
+                ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "Yopopupalert();", true);
+                //ScriptManager.RegisterStartupScript(this.Page, this.GetType(), "hideModal", "alert('Error occured');", true);
+            }
+            Response.Redirect("ManageUsers.aspx");
         }
     }
 }

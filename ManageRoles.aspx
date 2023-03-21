@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/LabMasterPage.master" AutoEventWireup="true" CodeFile="ManageRoles.aspx.cs" Inherits="ManageRoles" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/accessControlMaster.master" AutoEventWireup="true" CodeFile="ManageRoles.aspx.cs" Inherits="SuperAdmin_ManageRoles" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -13,8 +13,8 @@
                         <h4>User Management</h4>
                      </div>
                      <div class="col-sm-6 text-right">
-                        <a href="" data-toggle="modal" data-target="#modalAddRole" class="lab-btn-white"><span class="fa fa-plus" aria-hidden="true"></span> Add Role</a>
-                      </div>
+                        <a href="" data-toggle="modal" data-target="#modalAddRole" class='lab-btn-white'><span class="fa fa-plus" aria-hidden="true"></span> Add User</a>
+                     </div>
                   </div>
                </div>
             </nav>
@@ -25,19 +25,43 @@
                <!-- Lab User List Start -->
                <div id="divRolesList" class="tab-pane fade in active">
                   <!-- filter -->
-                 
-                  <div class="wrappercontent">
-                    <table class="table booking small-table">
-                       <thead>
-                          <tr>
-                             <th>Role</th>
-                             <th>Delete</th>
-                          </tr>
-                       </thead>
-                       <tbody id="tbodyRolesList" runat="server" clientidmode="Static">
-                       </tbody>
-                    </table>
-                  </div>
+                  <%--<div class="filterbar">
+                     <div class="row">
+                        <div class="col-md-6">
+                           <h4>Filter</h4>
+                        </div>
+                        <div class="col-md-6">
+                           <div class="subheader-search">
+                              <div id="custom-search-input">
+                                 <div class="input-group">
+                                    <input id="txtFilterSearch" type="text" class="  search-query form-control" placeholder="Search" />
+                                    <span class="input-group-btn">
+                                    <button class="btn btn-danger search-icon" type="button">
+                                    <span class=" glyphicon glyphicon-search"></span>
+                                    </button>
+                                    </span>
+                                    <a href="" data-toggle="modal" data-target="#modalUser"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>--%>
+                  
+                  <%-- <div>
+                    <a href="" data-toggle="modal" data-target="#modalAddRole" class='lab-btn-default'>Add Role</a>
+                  </div> --%>
+                  
+                  <table class="table booking">
+                     <thead>
+                        <tr>
+                           <th>Role</th>
+                           <th>Delete</th>
+                        </tr>
+                     </thead>
+                     <tbody id="tbodyRolesList" runat="server" clientidmode="Static">
+                     </tbody>
+                  </table>
             </div>
          </div>
       </div>
@@ -57,20 +81,20 @@
         <div class="cus-form">
               <div class="">                   
                   <div class="form-group">
-                    <%--<asp:TextBox class="form-control" placeholder="Enter role *" id="txtRole" runat="server" ClientIDMode="Static"></asp:TextBox>--%>
-                    <select id="selRole" runat="server" clientidmode="Static">
+                    <asp:TextBox class="form-control" placeholder="Enter role *" id="txtRole" runat="server" ClientIDMode="Static"></asp:TextBox>
+                   <%-- <select id="selRole" runat="server" clientidmode="Static">
                         <option  value="owner">owner</option>      
                         <option  value="supervisor">supervisor</option>      
                         <option value="assistant">assistant</option>      
                         <option value="receptionist">receptionist</option>                
-                    </select>
+                    </select>--%>
                     <label id="lblRole" class="form-error"></label>
                   </div>           
               </div>
             </div>
       </div>
       <div class="modal-footer">
-         <asp:Button ID="btnAdd" class="lab-btn-secondary" runat="server" Text="Submit" OnClientClick="javascript:return validateRoleAdd()" onclick="btnAdd_Click" ClientIDMode="Static" />  
+         <asp:Button ID="btnAdd" class="lab-btn-default" runat="server" Text="Submit" onclick="btnAdd_Click" ClientIDMode="Static" />  
       </div>
     </div>
   </div>
@@ -95,6 +119,8 @@
     </div>
   </div>
 </div>
+<!-- modal Delete Role Confirm End-->
+
 
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/ManageRolesValidation.js"></script>
@@ -109,6 +135,7 @@
             }
         });
     });
+
 </script>
 </asp:Content>
 

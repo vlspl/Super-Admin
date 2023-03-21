@@ -171,13 +171,13 @@ DataTable.prototype = {
     constructor: DataTable,
 
     /**
-    *
-    * Add the specified class(es) to the specified DOM Element.
-    *
-    * @param node The DOM Element
-    * @param classes (Array or String)
-    *
-    **/
+     *
+     * Add the specified class(es) to the specified DOM Element.
+     *
+     * @param node The DOM Element
+     * @param classes (Array or String)
+     *
+     **/
     addClass: function (node, classes) {
         if (typeof classes === "string") {
             classes = classes.split(' ');
@@ -189,12 +189,12 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Remove the specified node from the DOM.
-    *
-    * @param node The node to removes
-    *
-    **/
+     *
+     * Remove the specified node from the DOM.
+     *
+     * @param node The node to removes
+     *
+     **/
     removeNode: function (node) {
         if (node) {
             node.parentNode.removeChild(node);
@@ -202,14 +202,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Clear size option and set timeout (if specified) for refresh.
-    *
-    * Note: This function should be call when a ajax loading is finished.
-    *
-    * @update refreshTimeOut The new timeout
-    *
-    **/
+     *
+     * Clear size option and set timeout (if specified) for refresh.
+     *
+     * Note: This function should be call when a ajax loading is finished.
+     *
+     * @update refreshTimeOut The new timeout
+     *
+     **/
     setRefreshTimeout: function () {
         if (this.options.data.refresh) {
             clearTimeout(this.refreshTimeOut);
@@ -220,23 +220,23 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Hide the loading divs.
-    *
-    **/
+     *
+     * Hide the loading divs.
+     *
+     **/
     hideLoadingDivs: function () {
         this.removeNode(this.loadingDiv);
     },
 
 
     /**
-    *
-    * Update the loading divs with the current % of data load (according
-    * to this.options.data.size).
-    *
-    * Note: Call setRefreshTimeout & hideLoadingDivs if all the data have been loaded.
-    *
-    **/
+     *
+     * Update the loading divs with the current % of data load (according
+     * to this.options.data.size).
+     *
+     * Note: Call setRefreshTimeout & hideLoadingDivs if all the data have been loaded.
+     *
+     **/
     updateLoadingDivs: function () {
         if (this.data.length >= this.options.data.size) {
             this.setRefreshTimeout();
@@ -249,16 +249,16 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Get data according to this.options.data, asynchronously, using recursivity.
-    *
-    * @param start The first offset to send to the server
-    *
-    * @update data Concat data received from server to old data
-    *
-    * Note: Each call increment start by pageSize * pagingNumberOfPages.
-    *
-    **/
+     *
+     * Get data according to this.options.data, asynchronously, using recursivity.
+     *
+     * @param start The first offset to send to the server
+     *
+     * @update data Concat data received from server to old data
+     *
+     * Note: Each call increment start by pageSize * pagingNumberOfPages.
+     *
+     **/
     getAjaxDataAsync: function (start, recursive) {
         if (typeof recursive === "undefined") { recursive = false; }
         if (recursive && typeof this.syncData === "undefined") {
@@ -275,58 +275,58 @@ DataTable.prototype = {
             return function () {
                 if (this.readyState == 4) {
                     switch (this.status) {
-                        case 200:
-                            if (recursive) {
-                                if (this.response.length > 0) {
-                                    datatable.syncData.data =
+                    case 200:
+                        if (recursive) {
+                            if (this.response.length > 0) {
+                                datatable.syncData.data =
                                     datatable.syncData.data.concat(this.response);
-                                    datatable.getAjaxDataAsync(start + datatable.options.pageSize * datatable.options.pagingNumberOfPages, true);
-                                }
-                                else {
-                                    var syncData = datatable.syncData;
-                                    delete datatable.syncData;
-                                    datatable.data = syncData.data;
-                                    datatable.addRows(syncData.toAdd);
-                                    syncData.toDelete.forEach(function (e) {
-                                        if (e instanceof Function) {
-                                            datatable.deleteAll(e);
-                                        }
-                                        else {
-                                            datatable.deleteRow(e);
-                                        }
-                                    });
-                                    for (var id in syncData.toUpdate) {
-                                        datatable.updateRow(id, syncData.toUpdate[id]);
-                                    }
-
-                                    datatable.sort(true);
-                                    datatable.setRefreshTimeout();
-                                }
+                                datatable.getAjaxDataAsync(start + datatable.options.pageSize * datatable.options.pagingNumberOfPages, true);
                             }
                             else {
-                                datatable.data = datatable.data.concat(this.response);
-                                datatable.updateLoadingDivs();
+                                var syncData = datatable.syncData;
+                                delete datatable.syncData;
+                                datatable.data = syncData.data;
+                                datatable.addRows(syncData.toAdd);
+                                syncData.toDelete.forEach(function (e) {
+                                    if (e instanceof Function) {
+                                        datatable.deleteAll(e);
+                                    }
+                                    else {
+                                        datatable.deleteRow(e);
+                                    }
+                                });
+                                for (var id in syncData.toUpdate) {
+                                    datatable.updateRow(id, syncData.toUpdate[id]);
+                                }
+
                                 datatable.sort(true);
+                                datatable.setRefreshTimeout();
                             }
-                            break;
-                        case 404:
-                        case 500:
-                            console.log("ERROR: " + this.status + " - " + this.statusText);
-                            console.log(xhr);
-                            break;
-                        default:
-                            datatable.getAjaxDataAsync(start, recursive);
-                            break;
+                        }
+                        else {
+                            datatable.data = datatable.data.concat(this.response);
+                            datatable.updateLoadingDivs();
+                            datatable.sort(true);
+                        }
+                        break;
+                    case 404:
+                    case 500:
+                        console.log("ERROR: " + this.status + " - " + this.statusText);
+                        console.log(xhr);
+                        break;
+                    default:
+                        datatable.getAjaxDataAsync(start, recursive);
+                        break;
                     }
                 }
             }
         } (this, start, recursive);
-        var url = this.options.data.url;
-        var limit = this.options.pageSize * this.options.pagingNumberOfPages;
+        var url      = this.options.data.url ;
+        var limit    = this.options.pageSize * this.options.pagingNumberOfPages ;
         var formdata = new FormData();
         if (start !== true) {
             if (this.options.data.type.toUpperCase() == 'GET') {
-                url += '?start=' + start + '&limit=' + limit;
+                url += '?start=' + start + '&limit=' + limit ;
             }
             else {
                 formdata.append('offset', start);
@@ -339,24 +339,24 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * @return The last page number according to options.pageSize and
-    * current number of filtered elements.
-    *
-    **/
+     *
+     * @return The last page number according to options.pageSize and
+     * current number of filtered elements.
+     *
+     **/
     getLastPageNumber: function () {
         return parseInt(Math.ceil(this.filterIndex.length / this.options.pageSize), 10);
     },
 
     /**
-    *
-    * Update the paging divs.
-    *
-    **/
+     *
+     * Update the paging divs.
+     *
+     **/
     updatePaging: function () {
 
         /* Be carefull if you change something here, all this part calculate the first
-        and last page to display. I choose to center the current page, it's more beautiful... */
+           and last page to display. I choose to center the current page, it's more beautiful... */
 
         var nbPages = this.options.pagingNumberOfPages;
         var dataTable = this;
@@ -443,20 +443,20 @@ DataTable.prototype = {
                             return;
                         }
                         switch (this.dataset.page) {
-                            case 'first':
-                                dataTable.loadPage(1);
-                                break;
-                            case 'prev':
-                                dataTable.loadPage(cp - 1);
-                                break;
-                            case 'next':
-                                dataTable.loadPage(cp + 1);
-                                break;
-                            case 'last':
-                                dataTable.loadPage(lp);
-                                break;
-                            default:
-                                dataTable.loadPage(parseInt(parseInt(this.dataset.page), 10));
+                        case 'first':
+                            dataTable.loadPage(1);
+                            break;
+                        case 'prev':
+                            dataTable.loadPage(cp - 1);
+                            break;
+                        case 'next':
+                            dataTable.loadPage(cp + 1);
+                            break;
+                        case 'last':
+                            dataTable.loadPage(lp);
+                            break;
+                        default:
+                            dataTable.loadPage(parseInt(parseInt(this.dataset.page), 10));
                         }
                     }, false);
                 }
@@ -467,10 +467,10 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Update the counter divs.
-    *
-    **/
+     *
+     * Update the counter divs.
+     *
+     **/
     updateCounter: function () {
         var cp = this.filterIndex.length ?
             parseInt(this.currentStart / this.options.pageSize, 10) + 1 : 0;
@@ -487,12 +487,12 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * @return The sort function according to options.sort, options.sortKey & options.sortDir.
-    *
-    * Note: This function could return false if no sort function can be generated.
-    *
-    **/
+     *
+     * @return The sort function according to options.sort, options.sortKey & options.sortDir.
+     *
+     * Note: This function could return false if no sort function can be generated.
+     *
+     **/
     getSortFunction: function () {
         if (this.options.sort === false) {
             return false;
@@ -522,19 +522,19 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Destroy the filters (remove the filter line).
-    *
-    **/
+     *
+     * Destroy the filters (remove the filter line).
+     *
+     **/
     destroyFilter: function () {
         this.removeNode(this.table.querySelector('.datatable-filter-line'));
     },
 
     /**
-    *
-    * Change the text input filter placeholder according to this.options.filterText.
-    *
-    **/
+     *
+     * Change the text input filter placeholder according to this.options.filterText.
+     *
+     **/
     changePlaceHolder: function () {
         var placeholder = this.options.filterText ? this.options.filterText : '';
         var inputTexts = this.table.querySelectorAll('.datatable-filter-line input[type="text"]');
@@ -544,16 +544,16 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Create a text filter for the specified field.
-    *
-    * @param field The field corresponding to the filter
-    *
-    * @update filters Add the new filter to the list of filter (calling addFilter)
-    *
-    * @return The input filter
-    *
-    **/
+     *
+     * Create a text filter for the specified field.
+     *
+     * @param field The field corresponding to the filter
+     *
+     * @update filters Add the new filter to the list of filter (calling addFilter)
+     *
+     * @return The input filter
+     *
+     **/
     createTextFilter: function (field) {
         var opt = this.options.filters[field];
         var input = opt instanceof HTMLInputElement ? opt : document.createElement('input');
@@ -601,13 +601,13 @@ DataTable.prototype = {
     },
 
     /**
-    * Check if the specified value is in the specified array, without strict type checking.
-    *
-    * @param val The val to search
-    * @param arr The array
-    *
-    * @return true if the value was found in the array
-    **/
+     * Check if the specified value is in the specified array, without strict type checking.
+     *
+     * @param val The val to search
+     * @param arr The array
+     *
+     * @return true if the value was found in the array
+     **/
     _isIn: function (val, arr) {
         var found = false;
         for (var i = 0; i < arr.length && !found; ++i) {
@@ -617,13 +617,13 @@ DataTable.prototype = {
     },
 
     /**
-    * Return the index of the specified element in the object.
-    *
-    * @param v
-    * @param a
-    *
-    * @return The index, or -1
-    **/
+     * Return the index of the specified element in the object.
+     *
+     * @param v
+     * @param a
+     *
+     * @return The index, or -1
+     **/
     _index: function (v, a) {
         if (a === undefined || a === null) {
             return -1;
@@ -636,12 +636,12 @@ DataTable.prototype = {
     },
 
     /**
-    * Return the keys of the specified object.
-    *
-    * @param obj
-    *
-    * @return The keys of the specified object.
-    **/
+     * Return the keys of the specified object.
+     *
+     * @param obj
+     *
+     * @return The keys of the specified object.
+     **/
     _keys: function (obj) {
         if (obj === undefined || obj === null) {
             return undefined;
@@ -654,16 +654,16 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Create a select filter for the specified field.
-    *
-    * @param field The field corresponding to the filter
-    *
-    * @update filters Add the new filter to the list of filter (calling addFilter)
-    *
-    * @return The select filter.
-    *
-    **/
+     *
+     * Create a select filter for the specified field.
+     *
+     * @param field The field corresponding to the filter
+     *
+     * @update filters Add the new filter to the list of filter (calling addFilter)
+     *
+     * @return The select filter.
+     *
+     **/
     createSelectFilter: function (field) {
         var opt = this.options.filters[field];
         var values = {}, selected = [], multiple = false,
@@ -799,10 +799,10 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Create the filter line according to options.filters.
-    *
-    **/
+     *
+     * Create the filter line according to options.filters.
+     *
+     **/
     createFilter: function () {
         this.filters = [];
         this.filterTags = [];
@@ -844,16 +844,16 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Filter data and refresh.
-    *
-    * @param keepCurrentPage true if the current page should not be changed (on refresh
-    *      for example), if not specified or false, the current page will be set to 0.
-    *
-    * @update filterIndex Will contain the new filtered indexes
-    * @update currentStart The new starting point
-    *
-    **/
+     *
+     * Filter data and refresh.
+     *
+     * @param keepCurrentPage true if the current page should not be changed (on refresh
+     *      for example), if not specified or false, the current page will be set to 0.
+     *
+     * @update filterIndex Will contain the new filtered indexes
+     * @update currentStart The new starting point
+     *
+     **/
     filter: function (keepCurrentPage) {
         if (typeof keepCurrentPage === 'undefined') {
             keepCurrentPage = false;
@@ -905,10 +905,10 @@ DataTable.prototype = {
 
 
     /**
-    *
-    * Reset all filters.
-    *
-    **/
+     *
+     * Reset all filters.
+     *
+     **/
     resetFilters: function () {
         var dtable = this;
         this.filterTags.forEach(function (e) {
@@ -955,13 +955,13 @@ DataTable.prototype = {
     },
 
     /**
-    * Strip HTML tags for the specified string.
-    *
-    * @param str The string from which tags must be stripped.
-    *
-    * @return The string with HTML tags removed.
-    *
-    **/
+     * Strip HTML tags for the specified string.
+     *
+     * @param str The string from which tags must be stripped.
+     *
+     * @return The string with HTML tags removed.
+     *
+     **/
     stripTags: function (str) {
         var e = document.createElement('div');
         e.innerHTML = str;
@@ -969,15 +969,15 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Check if the specified data match the filters according to this.filters
-    * and this.filterVals.
-    *
-    * @param data The data to check
-    *
-    * @return true if the data match the filters, false otherwise
-    *
-    **/
+     *
+     * Check if the specified data match the filters according to this.filters
+     * and this.filterVals.
+     *
+     * @param data The data to check
+     *
+     * @return true if the data match the filters, false otherwise
+     *
+     **/
     checkFilter: function (data) {
         var ok = true;
         for (var fk in this.filters) {
@@ -994,24 +994,24 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Add a new filter.
-    *
-    * @update filters
-    *
-    **/
+     *
+     * Add a new filter.
+     *
+     * @update filters
+     *
+     **/
     addFilter: function (field, filter) {
         this.filters[field] = filter;
     },
 
     /**
-    *
-    * Get the filter select options for a specified field according
-    * to this.data.
-    *
-    * @return The options found.
-    *
-    **/
+     *
+     * Get the filter select options for a specified field according
+     * to this.data.
+     *
+     * @return The options found.
+     *
+     **/
     getFilterOptions: function (field) {
         var options = {}, values = [];
         for (var key in this.data) {
@@ -1030,10 +1030,10 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Remove class, data and event on sort headers.
-    *
-    **/
+     *
+     * Remove class, data and event on sort headers.
+     *
+     **/
     destroySort: function () {
         $('thead th').removeClass('sorting sorting-asc sorting-desc')
             .unbind('click.datatable')
@@ -1041,13 +1041,13 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Add class, event & data to headers according to this.options.sort or data-sort attribute
-    * of headers.
-    *
-    * @update options.sort Will be set to true if not already and a data-sort attribute is found.
-    *
-    **/
+     *
+     * Add class, event & data to headers according to this.options.sort or data-sort attribute
+     * of headers.
+     *
+     * @update options.sort Will be set to true if not already and a data-sort attribute is found.
+     *
+     **/
     createSort: function () {
         var dataTable = this;
         if (!(this.options.sort instanceof Function)) {
@@ -1114,11 +1114,11 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Trigger sort event on the table: If options.sort is a function,
-    * sort the table, otherwize trigger click on the column specifid by options.sortKey.
-    *
-    **/
+     *
+     * Trigger sort event on the table: If options.sort is a function,
+     * sort the table, otherwize trigger click on the column specifid by options.sortKey.
+     *
+     **/
     triggerSort: function () {
         if (this.options.sort instanceof Function) {
             this.sort();
@@ -1143,12 +1143,12 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Sort the data.
-    *
-    * @update data
-    *
-    **/
+     *
+     * Sort the data.
+     *
+     * @update data
+     *
+     **/
     sort: function (keepCurrentPage) {
         var fnSort = this.getSortFunction();
         if (fnSort !== false) {
@@ -1158,13 +1158,13 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Try to identify the specified data with the specify identifier according
-    * to this.options.identify.
-    *
-    * @return true if the data match, false otherwize
-    *
-    **/
+     *
+     * Try to identify the specified data with the specify identifier according
+     * to this.options.identify.
+     *
+     * @return true if the data match, false otherwize
+     *
+     **/
     identify: function (id, data) {
         if (this.options.identify === false) {
             return false;
@@ -1176,14 +1176,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Find the index of the first element matching id in the data array.
-    *
-    * @param The id to find (will be match according to this.options.identify)
-    *
-    * @return The index of the first element found, or -1 if no element is found
-    *
-    **/
+     *
+     * Find the index of the first element matching id in the data array.
+     *
+     * @param The id to find (will be match according to this.options.identify)
+     *
+     * @return The index of the first element found, or -1 if no element is found
+     *
+     **/
     indexOf: function (id) {
         var index = -1;
         for (var i = 0; i < this.data.length && index === -1; i++) {
@@ -1195,12 +1195,12 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Get an elements from the data array.
-    *
-    * @param id An identifier for the element (see this.options.identify)
-    *
-    **/
+     *
+     * Get an elements from the data array.
+     *
+     * @param id An identifier for the element (see this.options.identify)
+     *
+     **/
     row: function (id) {
         if (this.options.identify === true) {
             return this.data[id];
@@ -1209,11 +1209,11 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Retrieve all data.
-    *
-    *
-    **/
+     *
+     * Retrieve all data.
+     *
+     *
+     **/
     all: function (filter) {
         if (typeof filter === "undefined"
             || filter === true) {
@@ -1229,14 +1229,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Add an element to the data array.
-    *
-    * @param data The element to add
-    *
-    * @update data
-    *
-    **/
+     *
+     * Add an element to the data array.
+     *
+     * @param data The element to add
+     *
+     * @update data
+     *
+     **/
     addRow: function (data) {
         this.data.push(data);
         if (typeof this.syncData !== "undefined") {
@@ -1251,14 +1251,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Add elements to the data array.
-    *
-    * @param data Array of elements to add
-    *
-    * @update data
-    *
-    **/
+     *
+     * Add elements to the data array.
+     *
+     * @param data Array of elements to add
+     *
+     * @update data
+     *
+     **/
     addRows: function (data) {
         this.data = this.data.concat(data);
         if (typeof this.syncData !== "undefined") {
@@ -1273,12 +1273,12 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Remove an element from the data array.
-    *
-    * @param id An identifier for the element (see this.options.identify)
-    *
-    **/
+     *
+     * Remove an element from the data array.
+     *
+     * @param id An identifier for the element (see this.options.identify)
+     *
+     **/
     deleteRow: function (id) {
         var oldCurrentStart = this.currentStart;
         var index = this.indexOf(id);
@@ -1302,10 +1302,10 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Delete all elements matching the filter arg.
-    *
-    **/
+     *
+     * Delete all elements matching the filter arg.
+     *
+     **/
     deleteAll: function (filter) {
         var oldCurrentStart = this.currentStart
         var newData = [];
@@ -1330,13 +1330,13 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Update an element in the data array. Will add the element if it is not found.
-    *
-    * @param id An identifier for the element (see this.options.identify)
-    * @param data The new data (identifier value will be set to id)
-    *
-    **/
+     *
+     * Update an element in the data array. Will add the element if it is not found.
+     *
+     * @param id An identifier for the element (see this.options.identify)
+     * @param data The new data (identifier value will be set to id)
+     *
+     **/
     updateRow: function (id, data) {
         var index = this.indexOf(id);
         if (typeof this.syncData !== "undefined") {
@@ -1361,14 +1361,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Change the current page and refresh.
-    *
-    * @param page The number of the page to load
-    *
-    * @update currentStart
-    *
-    **/
+     *
+     * Change the current page and refresh.
+     *
+     * @param page The number of the page to load
+     *
+     * @update currentStart
+     *
+     **/
     loadPage: function (page) {
         var oldPage = this.currentStart / this.options.pageSize;
         if (page < 1) {
@@ -1383,20 +1383,20 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * @return The current page
-    *
-    **/
+     *
+     * @return The current page
+     *
+     **/
     getCurrentPage: function () {
         return this.currentStart / this.options.pageSize + 1;
     },
 
     /**
-    *
-    * Refresh the page according to current page (DO NOT SORT).
-    * This function call options.lineFormat.
-    *
-    **/
+     *
+     * Refresh the page according to current page (DO NOT SORT).
+     * This function call options.lineFormat.
+     *
+     **/
     refresh: function () {
         this.options.beforeRefresh.call(this.table);
         this.updatePaging();
@@ -1409,14 +1409,11 @@ DataTable.prototype = {
                 + '</div></div></tr>';
             return;
         }
-        if (this.filterIndex.length == 0 ) {
-            this.table.tBodies[0].innerHTML = '<tr><td colspan='+10+'>No record Found</td></tr>';
-        }
         for (var i = 0;
              i < this.options.pageSize && i + this.currentStart < this.filterIndex.length;
              i++) {
             var index = this.filterIndex[this.currentStart + i];
-            var data = this.data[index];
+            var data  = this.data[index];
             this.table.tBodies[0].appendChild(this.options.lineFormat.call(this.table,
                                                                            index, data));
         }
@@ -1424,15 +1421,15 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Set a option and refresh the table if necessary.
-    *
-    * @param key The name of the option to change
-    * @param val The new option value
-    *
-    * @update options
-    *
-    **/
+     *
+     * Set a option and refresh the table if necessary.
+     *
+     * @param key The name of the option to change
+     * @param val The new option value
+     *
+     * @update options
+     *
+     **/
     setOption: function (key, val) {
         if (key in this.options) {
             this.options[key] = val;
@@ -1456,14 +1453,14 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Set a list of options and refresh the table if necessary.
-    *
-    * @param options A list of options to set (plain object)
-    *
-    * @update options
-    *
-    **/
+     *
+     * Set a list of options and refresh the table if necessary.
+     *
+     * @param options A list of options to set (plain object)
+     *
+     * @update options
+     *
+     **/
     setOptions: function (options) {
         for (var key in options) {
             if (key in this.options) {
@@ -1489,10 +1486,10 @@ DataTable.prototype = {
     },
 
     /**
-    *
-    * Remove all the elements added by the datatable.
-    *
-    **/
+     *
+     * Remove all the elements added by the datatable.
+     *
+     **/
     destroy: function () {
         if (this.refreshTimeOut !== undefined) {
             clearTimeout(this.refreshTimeOut);
@@ -1509,7 +1506,7 @@ DataTable.prototype = {
         this.table.appendChild(document.createElement('tbody'));
         for (var i = 0; i < this.data.length; i++) {
             var index = this.filterIndex[this.currentStart + i];
-            var data = this.data[index];
+            var data  = this.data[index];
             this.table.tBodies[0].appendChild(this.options.lineFormat.call(this.table,
                                                                            index, data));
         }

@@ -1,30 +1,70 @@
-Time: 14/04/2018 04:06:45 AM
+﻿Time: 14/02/2022 04:45:04 AM
 -----------------------------------------------------------
-Message: Unable to connect to the remote server
-StackTrace:    at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
-   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
-   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
-   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
-   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
-   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
-   at System.Net.Mail.SmtpClient.GetConnection()
-   at System.Net.Mail.SmtpClient.Send(MailMessage message)
-Source: System
-TargetSite: System.Net.Sockets.Socket GetConnection(System.Net.PooledStream, System.Object, Boolean, System.Net.IPAddress ByRef, System.Net.Sockets.Socket ByRef, System.Net.Sockets.Socket ByRef)
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
 -----------------------------------------------------------
 
-Time: 14/04/2018 04:06:45 AM
+Time: 14/02/2022 04:52:19 AM
 -----------------------------------------------------------
-Message: Unable to connect to the remote server
-StackTrace:    at System.Net.ServicePoint.GetConnection(PooledStream PooledStream, Object owner, Boolean async, IPAddress& address, Socket& abortSocket, Socket& abortSocket6)
-   at System.Net.PooledStream.Activate(Object owningObject, Boolean async, GeneralAsyncDelegate asyncCallback)
-   at System.Net.PooledStream.Activate(Object owningObject, GeneralAsyncDelegate asyncCallback)
-   at System.Net.ConnectionPool.GetConnection(Object owningObject, GeneralAsyncDelegate asyncCallback, Int32 creationTimeout)
-   at System.Net.Mail.SmtpConnection.GetConnection(ServicePoint servicePoint)
-   at System.Net.Mail.SmtpTransport.GetConnection(ServicePoint servicePoint)
-   at System.Net.Mail.SmtpClient.GetConnection()
-   at System.Net.Mail.SmtpClient.Send(MailMessage message)
-Source: System
-TargetSite: System.Net.Sockets.Socket GetConnection(System.Net.PooledStream, System.Object, Boolean, System.Net.IPAddress ByRef, System.Net.Sockets.Socket ByRef, System.Net.Sockets.Socket ByRef)
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:05:41 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:09:44 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 74
+Source: mscorlib
+TargetSite: Void AbortInternal()
+-----------------------------------------------------------
+
+Time: 14/02/2022 05:35:52 AM
+-----------------------------------------------------------
+Message: Thread was being aborted.
+StackTrace:    at System.Threading.Thread.AbortInternal()
+   at System.Threading.Thread.Abort(Object stateInfo)
+   at System.Web.HttpResponse.AbortCurrentThread()
+   at System.Web.HttpResponse.End()
+   at System.Web.HttpResponse.Redirect(String url, Boolean endResponse, Boolean permanent)
+   at System.Web.HttpResponse.Redirect(String url)
+   at SuperAdmin_LabApprovalView.RegisterLab_Click(Object sender, EventArgs e) in g:\pleskvhosts\visionarylifescience.com\pathlab.visionarylifesciences.in\SuperAdmin\LabApprovalView.aspx.cs:line 85
+Source: mscorlib
+TargetSite: Void AbortInternal()
 -----------------------------------------------------------
 

@@ -1,94 +1,77 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/CRMMasterPage.master"
-    AutoEventWireup="true" CodeFile="waMessage.aspx.cs" Inherits="waMessage" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/accessControlMaster.master"
+    AutoEventWireup="true" CodeFile="waMessage.aspx.cs" Inherits="SuperAdmin_waMessage" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 
-<link href="Content/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-
-   <script src="Content/vendor/jquery/jquery.min.js"></script>
-    <script src="Content/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-   
-    <script src="Content/js/demo/datatables.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-<asp:UpdatePanel ID="uppage" runat="server">
-<ContentTemplate>
+ <nav class="primary-col-back subheader">
+               <div class="container-fluid">
+                  <div class="row">
+                     <div class="col-sm-6">
+                        <h4>Whatsapp Message Filters</h4>
+                     </div>
+                      <div class="col-sm-6 text-right">
 
-
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-2 static-top shadow">
-          <h3 class="text-dark d-none d-sm-block" style="width:100%;"><span class="text-primary">Whatsapp Message Filters </span> </h3>
-        
-                    <!-- Topbar Navbar -->
-                       
-        </nav>
-    <div class="wrapper" style="margin-left:20px;">
-        <div id="content">
-       <div class="table_div">
-                    <div class="container">
-                        <div class="row testDetail ">
-                            <div class="col col-md-3">
-                             <div class="form-group">
+                      </div>
+                     
+                  </div>
+               </div>
+            </nav>
+    <div class="box-body" style="padding:25px">
+    	<div class="row clearfix">
+            <p style="color:red; margin-left:20px;">Note : ( * ) Denotes Mandatory Fields.</p><br />
+        </div>
+        <div class="row">
+          <div class="col-lg-12 col-md-12">
+         <div class="col-lg-6 col-md-6">
+           <div class="form-group">
                     <label>
                         User Type<span style="color: Red">*</span></label>
                       <asp:DropDownList ID="drpuserType" runat="server" CssClass="form-control" 
                         AutoPostBack="True" onselectedindexchanged="drpuserType_SelectedIndexChanged">
-                      <asp:ListItem>-Select-</asp:ListItem>
+                      <asp:ListItem>-Select Type Here-</asp:ListItem>
                       <asp:ListItem>Patient</asp:ListItem>
                       <asp:ListItem>Doctor</asp:ListItem>
-                 
+                      <asp:ListItem>Employee</asp:ListItem>
                       </asp:DropDownList>
                 </div>
-                            </div>
-                             <div class="col col-md-3">
-                             <div class="form-group">
-  <label for="drpgender"> Channel Partner </label>
-    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtchanelpartner"
-                        ReadOnly="true"></asp:TextBox>
-   </div>
-   </div>
-   <div class="col col-md-3">
-                               <div class="form-group">
+         </div>
+           <div class="col-lg-6 col-md-6">
+            <div class="form-group" id="org" runat="server" visible="false">
                     <label>
-                        Mobile No</label>
-                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtmobileNo"
-                         placeholder="Enter Mobile No"></asp:TextBox>
-                      
-                </div>
-                             </div>
-                               <div class="col col-md-3">
-                                <div class="form-group" >
-                    <label>
-                        Gender</label>
-                      <asp:DropDownList ID="drpgender" runat="server" CssClass="form-control">
-                      <asp:ListItem>All</asp:ListItem>
-                      <asp:ListItem>Male</asp:ListItem>
-                      <asp:ListItem>Female</asp:ListItem>
+                        Organization Name</label>
+                      <asp:DropDownList ID="drporgnizationName" runat="server" CssClass="form-control">
+                      <asp:ListItem>-Select-</asp:ListItem>
+                    
                       </asp:DropDownList>
                 </div>
-                              </div>
-                            </div>
-                             <div class="row ">
-                              <div class="col col-md-3" style="display:none;">
-                              <div class="form-group">
+         </div>
+          </div>
+          </div>
+            <div class="row">
+          <div class="col-lg-12 col-md-12">
+         <div class="col-lg-3 col-md-3">
+         <div class="form-group">
                     <label>
-                        On board From</label>
-                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtonboardFrom" ReadOnly="true"
+                        On Board From</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtonboardFrom"
                          placeholder="Select From Date Here"></asp:TextBox>
                     <asp:CalendarExtender ID="txtonboardFrom_CalendarExtender" runat="server" 
                         DaysModeTitleFormat="dd/MM/yyyy" Enabled="True" Format="dd/MM/yyyy" 
                         TargetControlID="txtonboardFrom" TodaysDateFormat="dd/MM/yyyy">
                     </asp:CalendarExtender>
-            <%-- <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
-             </asp:ToolkitScriptManager>--%>
+             <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+             </asp:ToolkitScriptManager>
                 </div>
-                              </div>
-                              <div class="col col-md-3" style="display:none;">
-                               <div class="form-group">
+         </div>
+          <div class="col-lg-3 col-md-3">
+           <div class="form-group">
                     <label>
-                        On board To</label>
-                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txttodate" ReadOnly="true"
+                        On Board To</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txttodate"
                          placeholder="Select To Date Here"></asp:TextBox>
                       
                     <asp:CalendarExtender ID="txttodate_CalendarExtender" runat="server" 
@@ -97,54 +80,84 @@
                     </asp:CalendarExtender>
                       
                 </div>
-                              </div>
-                                <div class="col col-md-3">
-                              <div class="form-group">
+         </div>
+          <div class="col-lg-3 col-md-3">
+          <div class="form-group">
                     <label>
-                       Age From</label>
+                        From Age</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtfromage"
-                         placeholder="Enter From Age"></asp:TextBox>
-                  
+                         placeholder="Enter from Age"></asp:TextBox>
+                      
                 </div>
-                              </div>
-                              <div class="col col-md-3">
-                               <div class="form-group">
+         </div>
+          <div class="col-lg-3 col-md-3">
+           <div class="form-group">
                     <label>
-                        Age To</label>
+                        To Age</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txttoage"
                          placeholder="Enter To Age"></asp:TextBox>
                       
-                  
+                </div>
+         </div>
+         </div>
+         </div>
+           <div class="row">
+          <div class="col-lg-12 col-md-12">
+         <div class="col-lg-3 col-md-3">
+           <div class="form-group">
+                    <label>
+                        Mobile No</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtmobileNo"
+                         placeholder="Enter Mobile No"></asp:TextBox>
                       
                 </div>
-                              </div>
-                             <div class="col col-md-3">
-                                <div class="form-group">
+         </div>
+         <div class="col-lg-3 col-md-3" style="display:none;">
+           <div class="form-group" >
+                    <label>
+                        Gender</label>
+                      <asp:DropDownList ID="drpgender" runat="server" CssClass="form-control">
+                      <asp:ListItem>-Select-</asp:ListItem>
+                      <asp:ListItem>Male</asp:ListItem>
+                      <asp:ListItem>Female</asp:ListItem>
+                      </asp:DropDownList>
+                </div>
+         </div>
+         <div class="col-lg-3 col-md-3">
+          <div class="form-group">
+                    <label>
+                        Area</label>
+                    <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtarea"
+                         placeholder="Enter Area"></asp:TextBox>
+                      
+                </div>
+         </div>
+         <div class="col-lg-3 col-md-3">
+          <div class="form-group">
                     <label>
                         Pin Code</label>
                     <asp:TextBox runat="server" ClientIDMode="Static" class="form-control" ID="txtpincode"
                          placeholder="Enter Pincode"></asp:TextBox>
                       
                 </div>
-                             </div>
-                               <div class="col col-md-3">
-                               <asp:Button ID="BtnSave" runat="server" type="submit" style="margin-top:25px;" class="fa fa-save btn btn-lg btn-primary" 
+         </div>
+           <div class="col-lg-3 col-md-3">
+               <asp:Button ID="BtnSave" runat="server" type="submit" class="fa fa-save btn btn-lg btn-primary" style="margin-top:30px;"
                         Text="Search" onclick="BtnSave_Click"  />
-                             </div>
-                             </div>
-                             <br />
-                           
-                                 <div class="row">
-                                  <div class="col col-md-8">
-                                    <div class="box-body" style="padding: 20px; height:443px; overflow:auto;">
-                   
-                  
+            </div>
+           </div>
+             </div>
+
+
              
-                                  <table class="table table-bordered text-small" id="dataTable" width="100%" style="color: #56549b; " 
-                            cellspacing="0">
+           <hr />
+             <div class="row">
+          <div class="col-lg-8 col-md-8" style="height:564px; overflow:auto;">
+             <div class="box-body" style="padding: 20px">
+                    <table class="table text-center booking" id="userOtp">
                         <thead>
                             <tr>
-                               <th>
+                                <th>
                                    Sr No
                                 </th>
                                 <th>
@@ -159,10 +172,30 @@
                         <tbody id="tbodyAlluserOTP" runat="server" clientidmode="Static">
                         </tbody>
                     </table>
-                       </div>
-                                  </div>
-                                    <div class="col col-md-4">
-                                     <div class="form-group" >
+                    <div class="paging">
+                </div>
+                </div>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/datatable.jquery.js"></script>
+    <script type="text/javascript" src="js/datatable.js"></script>
+    <script>
+        $('#userOtp').datatable({
+            pageSize: 50,
+            pagination: [true],
+            //sort: [true, true, true, true],
+            filters: [false, false, false],
+            filterText: 'Type to filter ... ',
+            onChange: function (old_page, new_page) {
+                console.log('changed from ' + old_page + ' to ' + new_page);
+            }
+        });
+    </script>
+              <br />
+          </div>
+         
+          <div class="col-lg-4 col-md-4">
+        <div class="col-lg-12">
+           <div class="form-group">
                     <label>
                         Type <span style="color: Red">*</span></label>
                     <asp:DropDownList ID="drptype"  class="form-control select2 select2-hidden-accessible"
@@ -191,32 +224,19 @@
                        Message Body </label>
                        
                     <asp:TextBox ID="txtremark"  style="display:none;"  CssClass="form-control"  runat="server" ></asp:TextBox>
-                     <asp:TextBox ID="txtbody" TextMode="MultiLine"  style="height:200px; resize:none;"  CssClass="form-control"  runat="server" ></asp:TextBox>
+                     <asp:TextBox ID="txtbody" TextMode="MultiLine"  style="height:350px; resize:none;"  CssClass="form-control"  runat="server" ></asp:TextBox>
                   
                     </div>
-                   
-                     <asp:Button ID="btnsendMsg" runat="server" type="submit" 
-                             class="fa fa-save btn btn-lg btn-primary" 
-                        Text="Send Message"  style="margin-top:30px;" onclick="btnsendMsg_Click"/>
                   
-
-                                  </div>
-
-
-
-
-
-       
-  
-              <br />
-          </div>
-           </div>
-                             
-                            </div>
-                            </div>
-                            </div>
-                            </div>
-  
+                     <div class="form-group">
+                      <asp:Button ID="btnsendMsg" runat="server" type="submit" 
+                             class="fa fa-save btn btn-lg btn-primary" OnClientClick="ShowProgress()"
+                        Text="Send Message"  style="margin-top:30px;" onclick="btnsendMsg_Click"/>
+                     </div>
+      </div>
+          
+       </div>
+       </div>
    
       <div class="loading" align="center">
     Loading. Please wait.
@@ -263,10 +283,8 @@
             loading.css({ top: top, left: left });
         }, 200);
     }
-//    $('form').live("submit", function () {
-//        ShowProgress();
-//    });
+    $('form').live("submit", function () {
+        ShowProgress();
+    });
 </script> 
-</ContentTemplate>
-</asp:UpdatePanel>
 </asp:Content>
